@@ -19,9 +19,9 @@ function ExploreList({ toggleList }: any) {
   return (
     <>
       <div className="containerList" onMouseLeave={toggleList}>
-        {ListOfIntrest.map((e) => (
-          <div>
-            <p>{e}</p>
+        {ListOfIntrest.map((e,index) => (
+          <div key = {index}>
+            <p > {e}</p>
           </div>
         ))}
       </div>

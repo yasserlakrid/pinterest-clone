@@ -1,3 +1,25 @@
+
+.param {
+  background-color: #f7f7f7;
+  border-radius: 12px;
+  margin: 0;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  overflow-y: auto;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    width: 0;
+  }
+  to {
+    width: 320px;
+  }
+}
+.main-content {
+  overflow-y: auto;
+}
 .Container {
   display: grid;
   height: 100vh;
@@ -38,7 +60,6 @@
 
 .mainGrid {
   display: grid;
-  grid-template-columns: 1fr;
   padding: 16px;
   height: 100%;
   gap: 16px;
@@ -47,26 +68,4 @@
 .mainGrid.with-param {
   grid-template-columns: 320px 1fr;
   padding-left: 0;
-}
-
-.param {
-  background-color: #f7f7f7;
-  border-radius: 12px;
-  margin: 0;
-  padding: 20px;
-  border: 1px solid #e0e0e0;
-  overflow-y: auto;
-  animation: fadeIn 0.5s ease forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    width: 0;
-  }
-  to {
-    width: 320px;
-  }
-}
-.main-content {
-  overflow-y: auto;
 }

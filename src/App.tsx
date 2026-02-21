@@ -6,6 +6,7 @@ import Notification from "./components/notification";
 import Messages from "./components/messages";
 //components
 import ExploreList from "./components/exploreList";
+import MainContent from "./mainContent"
 import Create from "./components/create";
 import "./App.css";
 
@@ -15,7 +16,7 @@ function App() {
   const [create, openCreate] = useState(false);
   const [notification, openNotification] = useState(false);
   const [messages , openMessages] = useState(false)
-  function closeOthers(open: any, close : ( (state : boolean)=> void)[] ){
+  function closeOthers(open: ( (state : (prev: Boolean) => boolean)=> void), close : ( (state : boolean)=> void)[] ){
     open((prev : Boolean)=> !prev)
     close.forEach((item : (state : boolean)=> void)=>{
       item(false)
@@ -40,7 +41,6 @@ function App() {
   }
   function toggleMessages(){
     closeOthers(openMessages,[openCreate,openNotification,openPar])
-    console.log("hello noti")
   }
   return (
     <>
@@ -63,9 +63,8 @@ function App() {
             {create && <Create />}
             {notification && <Notification />}
             {messages && <Messages />}
-            <div className="main-content">This is the main content</div>
+            <MainContent />
           </div>
-
           {exploreSh && <ExploreList toggleList={toggleList} />}
 
         </div>
