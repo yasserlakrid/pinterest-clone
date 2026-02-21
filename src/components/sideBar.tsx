@@ -11,7 +11,7 @@ import NotificationLogo from "../assets/bell.png";
 import commentsLogo from "../assets/comment.png";
 import settingsLogo from "../assets/adjust.png";
 
-function SideBar({ toggleList, toggleParam, toggleCreate }: any) {
+function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , toggleMessages}: any) {
   function render() {}
   function renderCompass() {}
   function refrech() {
@@ -38,10 +38,10 @@ function SideBar({ toggleList, toggleParam, toggleCreate }: any) {
         <div className="logo AddLogo " onClick={toggleCreate}>
           <img src={AddLogo} />
         </div>
-        <div className="logo notificationLogo " onClick={renderCompass}>
+        <div className="logo notificationLogo " onClick={toggleNotification}>
           <img src={NotificationLogo} />
         </div>
-        <div className="logo commentsLogo " onClick={renderCompass}>
+        <div className="logo messagesLogo " onClick={toggleMessages}>
           <img src={commentsLogo} />
         </div>
         <div className="logo settingsLogo " onClick={toggleParam}>
