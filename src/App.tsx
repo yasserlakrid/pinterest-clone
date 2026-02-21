@@ -12,17 +12,28 @@ function App() {
   const [param, openPar] = useState(false);
   const [create, openCreate] = useState(false);
 
-  function toggleList() {
-    setDis(!exploreSh);
+  function closeOthers(open: any, close : ( (state : boolean)=> void)[] ){
+
+    open((prev : Boolean)=> !prev)
+    close.forEach((item : (state : boolean)=> void)=>{
+      item(false)
+    })
   }
 
+  function toggleList() {
+    
+    setDis(!exploreSh)
+  }
+
+
   function toggleParam() {
-    openPar(!param);
+    closeOthers(openPar,[openCreate])
   }
 
   function toggleCreate() {
-    openCreate(!create);
+    closeOthers(openCreate,[openPar]);
   }
+  
   return (
     <>
       <div className="Container">

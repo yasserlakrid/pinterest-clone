@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./sideBar.css";
+import "./sidebar.css";
 
 //Logos
 import pinterestLogo from "../assets/pinterest.svg";
