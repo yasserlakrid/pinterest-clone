@@ -1,13 +1,35 @@
 import "./mainContent.css"
-import { use, useEffect, useState } from "react"
+import {  useEffect, useRef, useState } from "react"
 const accessKey = "SsfwWHtRiHXuJAnN03Roxxd5Fyq-aA4I2DNm0nlEzVI"
 
 function MainContent() {
     const [bottom , reachedBottom ] = useState(false);
-    const [loading , setLoading] = useState(true)
-const [photos , setPhotos] = useState([])
+    const containerRef = useRef<HTMLDivElement | null>(null); 
+     const [loading , setLoading] = useState(true)
+     const [firstfetch , setFirstFetch] = useState(false)
+const [photos , setPhotos] = useState<object[]>([])
+
+   useEffect(() => {
+    const element = containerRef.current;
+    if (!element) return;
+
+    const handleScroll = () => {
+      const atBottom =
+        element.scrollTop + element.clientHeight >= element.scrollHeight - 5;
+      reachedBottom(atBottom);
+    };
+
+    element.addEventListener("scroll", handleScroll);
+    return () => element.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
+  
+
     useEffect(()=>{
         const req = async ()=>{
+            if(!bottom && firstfetch) return;
+
             try{
                const reqs =  await fetch("https://api.unsplash.com/photos/random?count=15&query=coffee&orientation=landscape",{
                 headers: {
@@ -21,14 +43,15 @@ const [photos , setPhotos] = useState([])
   }
 
             const data = await reqs.json() 
-            setPhotos(data)
             
+            
+                setPhotos(prev => [...prev, ...data])
+                setFirstFetch(true)
+
             setLoading(false)
-        
-           
+           console.log("you reached the bottom the number of images is : " , photos.length)
             }catch(err){
                 console.log("error fetching", err)
-                 
             }
            
 
@@ -36,9 +59,12 @@ const [photos , setPhotos] = useState([])
         req()
        
 
-    },[])
+    },[bottom])
+    useEffect(()=>{
+        console.log("the number of images is : " , photos.length)
+    },[photos])
     return (
-        <div className="MainContentVid">
+        <div className="MainContentVid" ref={containerRef} style={{  overflowY: "scroll" }}>
             {
                 loading ? (
                     <div className="loadingAniamtion">
