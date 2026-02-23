@@ -1,7 +1,8 @@
 import "./exploreList.css";
 
-function ExploreList({ toggleList }: any) {
-  var ListOfIntrest = [
+function ExploreList({ toggleList  , intrest , setintrest}: any )  {
+
+  const ListOfIntrest = [
     "Art",
     "Animaux de compagnie",
     "Beauté",
@@ -21,7 +22,7 @@ function ExploreList({ toggleList }: any) {
       <div className="containerList" onMouseLeave={toggleList}>
         {ListOfIntrest.map((e,index) => (
           <div key = {index}>
-            <p > {e}</p>
+            <p onClick={()=>setintrest(e)}> {e}</p>
           </div>
         ))}
       </div>

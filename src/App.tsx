@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import SideBar from "./components/sideBar";
 import Search from "./components/search";
 import Parameter from "./components/parameter";
@@ -16,6 +16,9 @@ function App() {
   const [create, openCreate] = useState(false);
   const [notification, openNotification] = useState(false);
   const [messages , openMessages] = useState(false)
+  const [interest , setinterest] = useState<string>("random")
+
+
   function closeOthers(open: ( (state : (prev: Boolean) => boolean)=> void), close : ( (state : boolean)=> void)[] ){
     open((prev : Boolean)=> !prev)
     close.forEach((item : (state : boolean)=> void)=>{
@@ -42,6 +45,7 @@ function App() {
   function toggleMessages(){
     closeOthers(openMessages,[openCreate,openNotification,openPar])
   }
+ 
   return (
     <>
       <div className="Container">
@@ -63,9 +67,9 @@ function App() {
             {create && <Create />}
             {notification && <Notification />}
             {messages && <Messages />}
-            <MainContent />
+            <MainContent intrest = {interest}/>
           </div>
-          {exploreSh && <ExploreList toggleList={toggleList} />}
+          {exploreSh && <ExploreList toggleList={toggleList} intrest = {interest} setintrest={setinterest}/>}
 
         </div>
       </div>

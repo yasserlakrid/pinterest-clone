@@ -1,13 +1,15 @@
 import "./mainContent.css"
 import {  useEffect, useRef, useState } from "react"
-const accessKey = "SsfwWHtRiHXuJAnN03Roxxd5Fyq-aA4I2DNm0nlEzVI"
 
-function MainContent() {
+const accessKey = "RAkFPc9q0iKs6GarPDAw07HMQ8ktUKAnXdqk2U9DAA5FWJUCRF2xaaS1"
+
+function MainContent(props :any) {
     const [bottom , reachedBottom ] = useState(false);
     const containerRef = useRef<HTMLDivElement | null>(null); 
      const [loading , setLoading] = useState(true)
      const [firstfetch , setFirstFetch] = useState(false)
 const [photos , setPhotos] = useState<object[]>([])
+
 
    useEffect(() => {
     const element = containerRef.current;
@@ -31,9 +33,13 @@ const [photos , setPhotos] = useState<object[]>([])
             if(!bottom && firstfetch) return;
 
             try{
-               const reqs =  await fetch("https://api.unsplash.com/photos/random?count=15&query=coffee&orientation=landscape",{
+                if(props.intrest.length === 0) {
+                    props.setintrest((prev : any) => [...prev, "random"])
+                }
+                console.log("looking for" , props.intrest )
+               const reqs =  await fetch(`https://api.pexels.com/v1/search?query=${props.intrest}&per_page=10`,{
                 headers: {
-                Authorization: `Client-ID ${accessKey}`
+                Authorization: accessKey
             }
             })
               if (!reqs.ok) {
@@ -45,11 +51,12 @@ const [photos , setPhotos] = useState<object[]>([])
             const data = await reqs.json() 
             
             
-                setPhotos(prev => [...prev, ...data])
+                setPhotos(prev => [...prev, ...data.photos])
+                console.log("data is : " , data.photos)
                 setFirstFetch(true)
 
             setLoading(false)
-           console.log("you reached the bottom the number of images is : " , photos.length)
+           console.log("you reached the bottom the number of images is : " , props.intrest)
             }catch(err){
                 console.log("error fetching", err)
             }
@@ -59,10 +66,46 @@ const [photos , setPhotos] = useState<object[]>([])
         req()
        
 
-    },[bottom])
+    },[bottom,props.intrest]);
+
+    
     useEffect(()=>{
-        console.log("the number of images is : " , photos.length)
-    },[photos])
+        const req = async ()=>{
+            try{
+                if(props.intrest.length === 0) {
+                    props.setintrest((prev : any) => [...prev, "random"])
+                }
+                console.log("looking for" , props.intrest )
+               const reqs =  await fetch(`https://api.pexels.com/v1/search?query=${props.intrest}&per_page=10`,{
+                headers: {
+                Authorization: accessKey
+            }
+            })
+              if (!reqs.ok) {
+    const text = await reqs.text();
+    console.log("Error response:", text);
+    return;
+  }
+
+            const data = await reqs.json() 
+            
+            
+                setPhotos([...data.photos])
+                console.log("data is : " , data.photos)
+                setFirstFetch(true)
+
+            setLoading(false)
+           
+            }catch(err){
+                console.log("error fetching", err)
+            }
+           
+
+        }
+        req()
+
+    },[props.intrest]);
+
     return (
         <div className="MainContentVid" ref={containerRef} style={{  overflowY: "scroll" }}>
             {
@@ -78,7 +121,7 @@ const [photos , setPhotos] = useState<object[]>([])
             {photos.length === 0 ? (<></> ): (
             photos.map((e : any ,index)=>(
                     <div key={index}>
-                        <img src={e.urls.regular} >
+                        <img src={e.src.original} >
                         </img>
                     </div>
                     )))
