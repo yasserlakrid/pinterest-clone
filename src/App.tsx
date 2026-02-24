@@ -18,7 +18,7 @@ function App() {
   const [messages , openMessages] = useState(false)
   const [interest , setinterest] = useState<string>("random")
 
-
+ //side bar functions 
   function closeOthers(open: ( (state : (prev: Boolean) => boolean)=> void), close : ( (state : boolean)=> void)[] ){
     open((prev : Boolean)=> !prev)
     close.forEach((item : (state : boolean)=> void)=>{
@@ -45,6 +45,9 @@ function App() {
   function toggleMessages(){
     closeOthers(openMessages,[openCreate,openNotification,openPar])
   }
+  function renderHome(){
+      setinterest("random")
+  }
  
   return (
     <>
@@ -59,6 +62,7 @@ function App() {
             toggleCreate={toggleCreate}
             toggleNotification={toggleNotification}
             toggleMessages = {toggleMessages}
+            renderHome = {renderHome}
           />
         </div>
         <div className="Main">

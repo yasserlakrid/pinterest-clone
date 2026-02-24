@@ -8,7 +8,7 @@ function MainContent(props :any) {
     const containerRef = useRef<HTMLDivElement | null>(null); 
      const [loading , setLoading] = useState(true)
      const [firstfetch , setFirstFetch] = useState(false)
-const [photos , setPhotos] = useState<object[]>([])
+    const [photos , setPhotos] = useState<object[]>([])
 
 
    useEffect(() => {
@@ -26,86 +26,61 @@ const [photos , setPhotos] = useState<object[]>([])
   }, []);
 
 
-  
-
-    useEffect(()=>{
-        const req = async ()=>{
-            if(!bottom && firstfetch) return;
-
+  function fetching(state : string){
+      const req = async ()=>{
             try{
                 if(props.intrest.length === 0) {
                     props.setintrest((prev : any) => [...prev, "random"])
                 }
                 console.log("looking for" , props.intrest )
-               const reqs =  await fetch(`https://api.pexels.com/v1/search?query=${props.intrest}&per_page=10`,{
+               const reqs =  await fetch(`https://api.pexels.com/v1/search?query=${props.intrest}`,{
                 headers: {
                 Authorization: accessKey
             }
             })
               if (!reqs.ok) {
-    const text = await reqs.text();
-    console.log("Error response:", text);
-    return;
-  }
+                    const text = await reqs.text();
+                    console.log("Error response:", text);
+                    return;
+                }
 
             const data = await reqs.json() 
             
+           if(state == "scroll"){
+            setPhotos(prev => [...prev, ...data.photos])
+           }else if(state == "choice"){
+            setPhotos([...data.photos])
+           }
+                
             
-                setPhotos(prev => [...prev, ...data.photos])
-                console.log("data is : " , data.photos)
-                setFirstFetch(true)
+           
+            console.log("data is : " , data.photos)
+            setFirstFetch(true)
 
             setLoading(false)
-           console.log("you reached the bottom the number of images is : " , props.intrest)
+            
             }catch(err){
                 console.log("error fetching", err)
             }
-           
+    
 
         }
         req()
-       
-
-    },[bottom,props.intrest]);
+        }
 
     
     useEffect(()=>{
-        const req = async ()=>{
-            try{
-                if(props.intrest.length === 0) {
-                    props.setintrest((prev : any) => [...prev, "random"])
-                }
-                console.log("looking for" , props.intrest )
-               const reqs =  await fetch(`https://api.pexels.com/v1/search?query=${props.intrest}&per_page=10`,{
-                headers: {
-                Authorization: accessKey
-            }
-            })
-              if (!reqs.ok) {
-    const text = await reqs.text();
-    console.log("Error response:", text);
-    return;
-  }
+        if(!bottom && firstfetch) return;
 
-            const data = await reqs.json() 
-            
-            
-                setPhotos([...data.photos])
-                console.log("data is : " , data.photos)
-                setFirstFetch(true)
+        fetching("scroll")
+        console.log("am scrolling")
 
-            setLoading(false)
-           
-            }catch(err){
-                console.log("error fetching", err)
-            }
-           
+    },[bottom]);
 
-        }
-        req()
-
-    },[props.intrest]);
-
+    useEffect(()=>{
+        fetching("choice")
+        console.log("choice specified")
+    },[props.intrest])
     return (
         <div className="MainContentVid" ref={containerRef} style={{  overflowY: "scroll" }}>
             {
