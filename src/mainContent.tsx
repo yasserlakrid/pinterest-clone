@@ -9,7 +9,7 @@ function MainContent(props :any) {
      const [loading , setLoading] = useState(true)
      const [firstfetch , setFirstFetch] = useState(false)
     const [photos , setPhotos] = useState<object[]>([])
-
+    const [lastAction , setlastAction] = useState<any>("random")
 
    useEffect(() => {
     const element = containerRef.current;
@@ -26,14 +26,13 @@ function MainContent(props :any) {
   }, []);
 
 
-  function fetching(state : string){
+  function fetching(state : string , looking : any){
       const req = async ()=>{
             try{
                 if(props.intrest.length === 0) {
                     props.setintrest((prev : any) => [...prev, "random"])
                 }
-                console.log("looking for" , props.intrest )
-               const reqs =  await fetch(`https://api.pexels.com/v1/search?query=${props.intrest}`,{
+                const reqs =  await fetch(`https://api.pexels.com/v1/search?query=${looking}`,{
                 headers: {
                 Authorization: accessKey
             }
@@ -45,16 +44,15 @@ function MainContent(props :any) {
                 }
 
             const data = await reqs.json() 
-            
+            console.log("the state is : " , state)
            if(state == "scroll"){
             setPhotos(prev => [...prev, ...data.photos])
-           }else if(state == "choice"){
+           }else if(state == "choice" || state == "search"){
+            setPhotos([])
             setPhotos([...data.photos])
            }
-                
             
            
-            console.log("data is : " , data.photos)
             setFirstFetch(true)
 
             setLoading(false)
@@ -71,16 +69,21 @@ function MainContent(props :any) {
     
     useEffect(()=>{
         if(!bottom && firstfetch) return;
-
-        fetching("scroll")
-        console.log("am scrolling")
-
+        fetching("scroll" , lastAction)
     },[bottom]);
 
     useEffect(()=>{
-        fetching("choice")
-        console.log("choice specified")
+        fetching("choice",lastAction)
+        setlastAction(props.intrest)
+        
     },[props.intrest])
+
+    useEffect(()=>{
+        fetching("search",lastAction)
+        setlastAction(props.query)
+        
+    },[props.query])
+    
     return (
         <div className="MainContentVid" ref={containerRef} style={{  overflowY: "scroll" }}>
             {

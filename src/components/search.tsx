@@ -1,7 +1,23 @@
-function Search() {
+import { useEffect, useState } from "react";
+
+function Search({query ,setQuery}:any) {
+  const [submitedSearch , setsubmitedSearch] = useState<string>("random")
+
+  function handleSubmit(){
+    setQuery(submitedSearch)
+    
+  }
+
+ 
+
   return (
     <>
-      <div>this is a search bar</div>
+      <div className="searchBar">
+        <input className="searchInput" type="text" placeholder="search" value={submitedSearch} onChange={(e:any)=>setsubmitedSearch(e.target.value)}/>
+
+        <button className="submitSearch" onClick={handleSubmit}> search</button>
+      </div>
+      
     </>
   );
 }

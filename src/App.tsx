@@ -17,7 +17,8 @@ function App() {
   const [notification, openNotification] = useState(false);
   const [messages , openMessages] = useState(false)
   const [interest , setinterest] = useState<string>("random")
-
+  const [searchQuery , setsearchQuery] = useState<string>("search")
+  
  //side bar functions 
   function closeOthers(open: ( (state : (prev: Boolean) => boolean)=> void), close : ( (state : boolean)=> void)[] ){
     open((prev : Boolean)=> !prev)
@@ -53,7 +54,7 @@ function App() {
     <>
       <div className="Container">
         <div className="Search">
-          <Search />
+          <Search query={searchQuery} setQuery={setsearchQuery}/>
         </div>
         <div className="Side">
           <SideBar
@@ -71,7 +72,7 @@ function App() {
             {create && <Create />}
             {notification && <Notification />}
             {messages && <Messages />}
-            <MainContent intrest = {interest}/>
+            <MainContent intrest = {interest} query= {searchQuery}/>
           </div>
           {exploreSh && <ExploreList toggleList={toggleList} intrest = {interest} setintrest={setinterest}/>}
 
