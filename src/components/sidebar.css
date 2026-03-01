@@ -1,4 +1,4 @@
-.container {
+.Sidecontainer {
   height: 100%;
   display: flex;
   flex-direction: column; /* vertical */
@@ -9,7 +9,7 @@
 }
 
 /* Style for all logo buttons */
-.container .logo {
+.Sidecontainer .logo {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,13 +22,30 @@
   overflow: hidden;
 }
 
-.container .logo:hover {
+.Sidecontainer .logo:hover {
   background-color: #e9e9e9;
 }
 
-.container .logo img {
+.Sidecontainer .logo img {
   width: 24px;
   height: 24px;
   object-fit: contain;
   display: block;
+}
+@media (max-width : 750px) {
+  .Sidecontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+ .Sidecontainer .settingsLogo{
+  display: none;
+ }
+ .Sidecontainer .AddLogo{
+  display: none;
+ }
+ .Sidecontainer .GridLogo{
+  display: none;
+ }
 }

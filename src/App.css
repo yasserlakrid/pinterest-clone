@@ -27,7 +27,16 @@
   grid-template-rows: 80px 1fr;
   grid-template-areas: "side search" "side main";
 }
+@media (max-width:760px) {
+  .Container {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: auto;
+  grid-template-rows: 80px 1fr 80px;
+  grid-template-areas: "search" "main" "side";
+}
 
+}
 .Search {
   background-color: #ffffff;
   grid-area: search;

@@ -20,7 +20,7 @@ function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , t
 
   return (
     <>
-      <div className="container">
+      <div className="Sidecontainer">
         <div className="logo PintLogo " onClick={refrech}>
           <img src={pinterestLogo} />
         </div>
