@@ -11,7 +11,7 @@ import NotificationLogo from "../assets/bell.png";
 import commentsLogo from "../assets/comment.png";
 import settingsLogo from "../assets/adjust.png";
 
-function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , toggleMessages , renderHome}: any) {
+function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , toggleMessages , setintrest}: any) {
   function render() {}
   function renderCompass() {}
   function refrech() {
@@ -24,7 +24,7 @@ function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , t
         <div className="logo PintLogo " onClick={refrech}>
           <img src={pinterestLogo} />
         </div>
-        <div className="logo HomeLogo " onClick={renderHome}>
+        <div className="logo HomeLogo " onClick={setintrest}>
           <img src={HomeLogo} />
         </div>
 

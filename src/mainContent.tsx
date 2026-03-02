@@ -1,6 +1,6 @@
 import "./mainContent.css"
 import {  useEffect, useRef, useState } from "react"
-
+import BigPost from "./components/bigPost.tsx"
 const accessKey = "RAkFPc9q0iKs6GarPDAw07HMQ8ktUKAnXdqk2U9DAA5FWJUCRF2xaaS1"
 
 function MainContent(props :any) {
@@ -10,7 +10,7 @@ function MainContent(props :any) {
     const [firstfetch , setFirstFetch] = useState(false)
     const [photos , setPhotos] = useState<object[]>([])
     const [lastAction , setlastAction] = useState<any>("random")
-
+    const [clickedPost , setclickedPost] = useState<string>("")
    useEffect(() => {
     const element = containerRef.current;
     if (!element) return;
@@ -51,7 +51,7 @@ function MainContent(props :any) {
                 }
 
             const data = await reqs.json() 
-            console.log("the state is : " , state)
+            console.log("the data is  : " , data)
            if(state == "scroll"){
             setPhotos(prev => [...prev, ...data.photos])
            }else if(state == "choice" || state == "search"){
@@ -82,7 +82,7 @@ function MainContent(props :any) {
     useEffect(()=>{
         fetching("choice",props.intrest)
         setlastAction(props.intrest)
-        
+        console.log("intrests are changin s")
     },[props.intrest])
 
     useEffect(()=>{
@@ -90,9 +90,19 @@ function MainContent(props :any) {
         setlastAction(props.query)
         
     },[props.query])
-    
+
+    function clickPost(link : string ){
+        props.viewPost(true)
+        setclickedPost(link)
+        setPhotos(prev => prev.filter((prev : any )=> prev.src.large != link))
+      
+ 
+
+  
+    }
+   
     return (
-        <div className="MainContentVid" ref={containerRef} style={{  overflowY: "scroll" }}>
+        <div className= "MainContentVid" ref={containerRef} style={{  overflowY: "scroll" }}>
             {
                 loading ? (
                     <div className="loadingAniamtion">
@@ -103,14 +113,16 @@ function MainContent(props :any) {
                     </>
                 )
             }
-            {photos.length === 0 ? (<></> ): (
-            photos.map((e : any ,index)=>(
-                    <div key={index}>
-                        <img src={e.src.medium} >
-                        </img>
-                    </div>
-                    )))
-            }
+            {props.post && <BigPost postUrl = {clickedPost}/>}
+
+                {photos.length === 0 ? (<></> ): (
+                            photos.map((e : any ,index)=>(
+                                    <div className="postContainer" key={index} onClick={()=>clickPost(e.src.large)}>
+                                        <img src={e.src.medium} >
+                                        </img>
+                                    </div>
+                                    )))
+                }
                 
         </div>
 

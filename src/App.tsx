@@ -1,4 +1,5 @@
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
+
 import SideBar from "./components/sideBar";
 import Search from "./components/search";
 import Parameter from "./components/parameter";
@@ -18,6 +19,7 @@ function App() {
   const [messages , openMessages] = useState(false)
   const [interest , setinterest] = useState<string>("random")
   const [searchQuery , setsearchQuery] = useState<string>("search")
+  const [postView , setpostView] = useState<boolean>(false)
   
  //side bar functions 
   function closeOthers(open: ( (state : (prev: Boolean) => boolean)=> void), close : ( (state : boolean)=> void)[] ){
@@ -46,9 +48,9 @@ function App() {
   function toggleMessages(){
     closeOthers(openMessages,[openCreate,openNotification,openPar])
   }
-  function renderHome(){
-      setinterest("random")
-  }
+  
+ 
+
  
   return (
     <>
@@ -63,16 +65,17 @@ function App() {
             toggleCreate={toggleCreate}
             toggleNotification={toggleNotification}
             toggleMessages = {toggleMessages}
-            renderHome = {renderHome}
+            setintrest = {setinterest}
           />
         </div>
         <div className="Main">
-          <div className={`MainContent mainGrid ${(param || create || notification || messages) ? "with-param" : ""}`}>
+          <div className={`MainContent ${(param || create || notification || messages) ? "with-param" : ""}`}>
             {param && <Parameter />}
             {create && <Create />}
             {notification && <Notification />}
             {messages && <Messages />}
-            <MainContent intrest = {interest} query= {searchQuery}/>
+            <MainContent intrest = {interest} query= {searchQuery} post = {postView} viewPost= {setpostView}/>
+            
           </div>
           {exploreSh && <ExploreList toggleList={toggleList} intrest = {interest} setintrest={setinterest}/>}
 

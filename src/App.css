@@ -65,14 +65,13 @@
   width: 100%;
   height: 100%;
   position: relative;
-}
-
-.mainGrid {
   display: grid;
   padding: 16px;
   height: 100%;
   gap: 16px;
 }
+
+
 
 .mainGrid.with-param {
   grid-template-columns: 320px 1fr;
