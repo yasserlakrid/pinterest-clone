@@ -80,13 +80,13 @@ function MainContent(props :any) {
     },[bottom]);
 
     useEffect(()=>{
-        fetching("choice", props.intrest)
+        fetching("choice",props.intrest)
         setlastAction(props.intrest)
         
     },[props.intrest])
 
     useEffect(()=>{
-        fetching("search", props.query)
+        fetching("search",props.query)
         setlastAction(props.query)
         
     },[props.query])

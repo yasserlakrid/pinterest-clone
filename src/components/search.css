@@ -13,3 +13,10 @@
     border: 1px solid gray;
     padding: 10px;
 }
+.submitSearch{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: none;
+
+}
