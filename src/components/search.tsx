@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-
+import "./search.css"
 function Search({query ,setQuery}:any) {
-  const [submitedSearch , setsubmitedSearch] = useState<string>("random")
+  const [submitedSearch , setsubmitedSearch] = useState<string>("")
 
   function handleSubmit(){
     setQuery(submitedSearch)

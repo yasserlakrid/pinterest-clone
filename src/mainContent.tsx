@@ -6,8 +6,8 @@ const accessKey = "RAkFPc9q0iKs6GarPDAw07HMQ8ktUKAnXdqk2U9DAA5FWJUCRF2xaaS1"
 function MainContent(props :any) {
     const [bottom , reachedBottom ] = useState(false);
     const containerRef = useRef<HTMLDivElement | null>(null); 
-     const [loading , setLoading] = useState(true)
-     const [firstfetch , setFirstFetch] = useState(false)
+    const [loading , setLoading] = useState(true)
+    const [firstfetch , setFirstFetch] = useState(false)
     const [photos , setPhotos] = useState<object[]>([])
     const [lastAction , setlastAction] = useState<any>("random")
 
@@ -26,8 +26,15 @@ function MainContent(props :any) {
   }, []);
 
 
-  function fetching(state : string , looking : any){
-      const req = async ()=>{
+  function fetching(state : string , looking : any){   
+   
+         if(state === "choice" || state === "search"){
+          setLoading(true)
+          setPhotos([])
+        }  
+    
+        
+        const req = async ()=>{
             try{
                 if(props.intrest.length === 0) {
                     props.setintrest((prev : any) => [...prev, "random"])
@@ -48,7 +55,7 @@ function MainContent(props :any) {
            if(state == "scroll"){
             setPhotos(prev => [...prev, ...data.photos])
            }else if(state == "choice" || state == "search"){
-            setPhotos([])
+            
             setPhotos([...data.photos])
            }
             
@@ -73,13 +80,13 @@ function MainContent(props :any) {
     },[bottom]);
 
     useEffect(()=>{
-        fetching("choice",lastAction)
+        fetching("choice", props.intrest)
         setlastAction(props.intrest)
         
     },[props.intrest])
 
     useEffect(()=>{
-        fetching("search",lastAction)
+        fetching("search", props.query)
         setlastAction(props.query)
         
     },[props.query])
@@ -99,7 +106,7 @@ function MainContent(props :any) {
             {photos.length === 0 ? (<></> ): (
             photos.map((e : any ,index)=>(
                     <div key={index}>
-                        <img src={e.src.original} >
+                        <img src={e.src.medium} >
                         </img>
                     </div>
                     )))
