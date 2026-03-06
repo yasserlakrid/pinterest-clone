@@ -24,50 +24,48 @@ function SearchDrop(){
                     recent recherches
                 </p>
                 <div>
-{ListOfIntrest.map((e,index)=>
-                <div key = {index}>
-                    {e}
-                </div>
-            )}
-                </div>
-                
-            </div>
-
-            <div className="idea">
-                <p className="ideaFor">
-                    ideas for you
-                </p>
-                <div>
                     {ListOfIntrest.map((e,index)=>
-                <div key = {index}>
-                    {e}
-                </div>
-            )}
-                </div>
-                
-            </div>
-
-            <div>
-                <p>
-                    popular at pintrest
-                </p>
-                <div>
-{ListOfIntrest.map((e,index)=>
-                <div key = {index}>
-                    {e}
-                </div>
-            )}
+                        <div key = {index}>
+                            {e}
+                        </div>
+                    )}
                 </div>
                 
             </div>
             
-            <div>
+            <div className="recherched">
+                <p className="ideas">
+                    ideas for you
+                </p>
+                <div>
+                    {ListOfIntrest.map((e,index)=>
+                        <div key = {index}>
+                            {e}
+                        </div>
+                    )}
+                </div>
                 
             </div>
-            <div>
+
+            <div className="recherched">
+                <p className="trend">
+                    trendy on pintrest
+                </p>
+                <div>
+                    {ListOfIntrest.map((e,index)=>
+                        <div key = {index}>
+                            {e}
+                        </div>
+                    )}
+                </div>
                 
             </div>
+           
+
+            
+                
         </div>
+       
     )
 }
 export default SearchDrop

@@ -3,10 +3,30 @@
     z-index: 10;
     background-color: white;
     width: 95%;
-    height: 30vh;
+    height: 70vh;
     overflow: scroll;
+
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 100px;
+    
 }
+
 .SearchDrop div div {
     display: grid;
     grid-template-columns: repeat(auto-fit , minmax(200px , 1fr)) ;
+    gap: 10px;
+    min-height: 64px;
+
+}
+.SearchDrop div div div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(245, 244, 244);
+    border-radius: 5px;
+}
+p{
+    font-weight: 600;
+    font-size: larger;
 }
