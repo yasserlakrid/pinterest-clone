@@ -73,7 +73,7 @@
 
 
 
-.mainGrid.with-param {
+.with-param {
   grid-template-columns: 320px 1fr;
   padding-left: 0;
 }

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+
+
 import "./search.css"
-function Search({query ,setQuery}:any) {
+function Search({query ,setQuery , searchDrop}:any) {
   const [submitedSearch , setsubmitedSearch] = useState<string>("")
 
   function handleSubmit(){
@@ -13,10 +15,12 @@ function Search({query ,setQuery}:any) {
   return (
     <>
       <div className="searchBar">
-        <input className="searchInput" type="text" placeholder="search" value={submitedSearch} onChange={(e:any)=>setsubmitedSearch(e.target.value)}/>
+        <input className="searchInput" type="text" placeholder="search" value={submitedSearch} onChange={(e:any)=>setsubmitedSearch(e.target.value) } onClick={()=>{searchDrop(true)}}/>
 
         <button className="submitSearch" onClick={handleSubmit}> search</button>
+
       </div>
+
       
     </>
   );

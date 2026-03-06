@@ -24,7 +24,7 @@ function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , t
         <div className="logo PintLogo " onClick={refrech}>
           <img src={pinterestLogo} />
         </div>
-        <div className="logo HomeLogo " onClick={setintrest}>
+        <div className="logo HomeLogo " onClick={()=>setintrest("random")}>
           <img src={HomeLogo} />
         </div>
 

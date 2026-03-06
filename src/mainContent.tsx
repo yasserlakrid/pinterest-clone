@@ -2,7 +2,7 @@ import "./mainContent.css"
 import {  useEffect, useRef, useState } from "react"
 import BigPost from "./components/bigPost.tsx"
 const accessKey = "RAkFPc9q0iKs6GarPDAw07HMQ8ktUKAnXdqk2U9DAA5FWJUCRF2xaaS1"
-
+import SearchDrop from "./components/searchDrop.tsx"
 function MainContent(props :any) {
     const [bottom , reachedBottom ] = useState(false);
     const containerRef = useRef<HTMLDivElement | null>(null); 
@@ -11,6 +11,7 @@ function MainContent(props :any) {
     const [photos , setPhotos] = useState<object[]>([])
     const [lastAction , setlastAction] = useState<any>("random")
     const [clickedPost , setclickedPost] = useState<string>("")
+    
    useEffect(() => {
     const element = containerRef.current;
     if (!element) return;
@@ -72,7 +73,7 @@ function MainContent(props :any) {
         }
         req()
         }
-
+        
     
     useEffect(()=>{
         if(!bottom && firstfetch) return;
@@ -103,6 +104,7 @@ function MainContent(props :any) {
    
     return (
         <div className= "MainContentVid" ref={containerRef} style={{  overflowY: "scroll" }}>
+            {props.searchDrop &&<SearchDrop/>}
             {
                 loading ? (
                     <div className="loadingAniamtion">

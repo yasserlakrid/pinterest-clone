@@ -20,7 +20,8 @@ function App() {
   const [interest , setinterest] = useState<string>("random")
   const [searchQuery , setsearchQuery] = useState<string>("search")
   const [postView , setpostView] = useState<boolean>(false)
-  
+  const [searchDrop , setsearchDrop ] = useState(false)
+    
  //side bar functions 
   function closeOthers(open: ( (state : (prev: Boolean) => boolean)=> void), close : ( (state : boolean)=> void)[] ){
     open((prev : Boolean)=> !prev)
@@ -49,14 +50,17 @@ function App() {
     closeOthers(openMessages,[openCreate,openNotification,openPar])
   }
   
- 
+  function callHome(){
+    setpostView(false)
+    return setinterest("random")
+  }
 
  
   return (
     <>
       <div className="Container">
         <div className="Search">
-          <Search query={searchQuery} setQuery={setsearchQuery}/>
+          <Search query={searchQuery} setQuery={setsearchQuery} searchDrop ={setsearchDrop} />
         </div>
         <div className="Side">
           <SideBar
@@ -65,7 +69,7 @@ function App() {
             toggleCreate={toggleCreate}
             toggleNotification={toggleNotification}
             toggleMessages = {toggleMessages}
-            setintrest = {setinterest}
+            setintrest = {callHome}
           />
         </div>
         <div className="Main">
@@ -74,7 +78,7 @@ function App() {
             {create && <Create />}
             {notification && <Notification />}
             {messages && <Messages />}
-            <MainContent intrest = {interest} query= {searchQuery} post = {postView} viewPost= {setpostView}/>
+            <MainContent intrest = {interest} query= {searchQuery} post = {postView} viewPost= {setpostView} searchDrop={searchDrop}/>
             
           </div>
           {exploreSh && <ExploreList toggleList={toggleList} intrest = {interest} setintrest={setinterest}/>}
