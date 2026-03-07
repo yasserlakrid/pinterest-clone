@@ -18,14 +18,14 @@ function SearchDrop(){
   ];
 
     return (
-        <div className="SearchDrop">
-            <div className="recherched">
-                <p className="recent">
+        <div className="SearchDrop s">
+            <div className="recherched s">
+                <p className="recent s">
                     recent recherches
                 </p>
-                <div>
+                <div className="s">
                     {ListOfIntrest.map((e,index)=>
-                        <div key = {index}>
+                        <div key = {index} className="s">
                             {e}
                         </div>
                     )}
@@ -33,13 +33,13 @@ function SearchDrop(){
                 
             </div>
             
-            <div className="recherched">
-                <p className="ideas">
+            <div className="recherched s">
+                <p className="ideas s">
                     ideas for you
                 </p>
-                <div>
+                <div className="s"> 
                     {ListOfIntrest.map((e,index)=>
-                        <div key = {index}>
+                        <div key = {index} className="s">
                             {e}
                         </div>
                     )}
@@ -47,13 +47,13 @@ function SearchDrop(){
                 
             </div>
 
-            <div className="recherched">
-                <p className="trend">
+            <div className="recherched s">
+                <p className="trend s">
                     trendy on pintrest
                 </p>
-                <div>
+                <div className="s">
                     {ListOfIntrest.map((e,index)=>
-                        <div key = {index}>
+                        <div key = {index} className="s">
                             {e}
                         </div>
                     )}

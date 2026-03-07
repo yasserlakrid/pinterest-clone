@@ -101,9 +101,9 @@ function MainContent(props :any) {
 
   
     }
-   
+    
     return (
-        <div className= "MainContentVid" ref={containerRef} style={{  overflowY: "scroll" }}>
+        <div className= "MainContentVid" ref={containerRef} style={{  overflowY: "scroll" }} onClick={props.closeSearchDrop}>
             {props.searchDrop &&<SearchDrop/>}
             {
                 loading ? (
@@ -119,7 +119,7 @@ function MainContent(props :any) {
 
                 {photos.length === 0 ? (<></> ): (
                             photos.map((e : any ,index)=>(
-                                    <div className="postContainer" key={index} onClick={()=>clickPost(e.src.large)}>
+                                    <div className="postContainer" key={index} onClick={()=>clickPost(e.src.large)} >
                                         <img src={e.src.medium} >
                                         </img>
                                     </div>
