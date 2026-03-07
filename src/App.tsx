@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useState } from "react";
 
 import SideBar from "./components/sideBar";
 import Search from "./components/search";

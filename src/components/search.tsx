@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 
 
 import "./search.css"
-function Search({query ,setQuery , searchDrop , closeSearchDrop}:any) {
+function Search({setQuery , searchDrop , closeSearchDrop}:any) {
   const [submitedSearch , setsubmitedSearch] = useState<string>("")
 
   function handleSubmit(){

@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import "./sidebar.css";
 
 //Logos
@@ -12,7 +11,7 @@ import commentsLogo from "../assets/comment.png";
 import settingsLogo from "../assets/adjust.png";
 
 function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , toggleMessages , setintrest , closeSearchDrop}: any) {
-  function render() {}
+ 
   function renderCompass() {}
   function refrech() {
     window.location.reload();

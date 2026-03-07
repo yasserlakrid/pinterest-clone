@@ -1,6 +1,6 @@
 import "./exploreList.css";
 
-function ExploreList({ toggleList  , intrest , setintrest}: any )  {
+function ExploreList({ toggleList  , setintrest}: any )  {
 
   const ListOfIntrest = [
     "Art",

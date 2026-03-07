@@ -1,5 +1,5 @@
 import "./mainContent.css"
-import {  use, useEffect, useRef, useState } from "react"
+import {  useEffect, useRef, useState } from "react"
 import BigPost from "./components/bigPost.tsx"
 const accessKey = "RAkFPc9q0iKs6GarPDAw07HMQ8ktUKAnXdqk2U9DAA5FWJUCRF2xaaS1"
 import SearchDrop from "./components/searchDrop.tsx"
@@ -107,20 +107,17 @@ function MainContent(props :any) {
         <div className= "MainContentVid" ref={containerRef} style={{  overflowY: "scroll" }} onClick={props.closeSearchDrop}>
             {props.searchDrop &&<SearchDrop setquery={setDropQuery}/>}
             {
-                loading ? (
+                loading &&
                     <div className="loadingAniamtion">
                         loading
                     </div>
-                ):(
-                    <>
-                    </>
-                )
+                
             }
             {props.post && <BigPost postUrl = {clickedPost}/>}
 
                 {photos.length === 0 ? (<></> ): (
                             photos.map((e : any ,index)=>(
-                                    <div className="postContainer" key={index} onClick={()=>clickPost(e.src.large)} >
+                                    <div className={`postContainer` }key={index} onClick={()=>clickPost(e.src.large)} >
                                         <img src={e.src.medium} >
                                         </img>
                                     </div>
