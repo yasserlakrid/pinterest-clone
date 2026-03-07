@@ -18,7 +18,7 @@ function App() {
   const [notification, openNotification] = useState(false);
   const [messages , openMessages] = useState(false)
   const [interest , setinterest] = useState<string>("random")
-  const [searchQuery , setsearchQuery] = useState<string>("search")
+  const [searchQuery , setsearchQuery] = useState<string>("")
   const [postView , setpostView] = useState<boolean>(false)
   const [searchDrop , setsearchDrop ] = useState(false)
     
@@ -56,16 +56,17 @@ function App() {
   }
   function closeSearchDrop(item :any){
     console.log(item.currentTarget.classList)
-   if( !item.target.classList.contains("s")){
+   if( !item.target.classList.contains("s") ){
     setsearchDrop(false)
    }
+   
   }
  
   return (
     <>
       <div className="Container">
         <div className="Search">
-          <Search query={searchQuery} setQuery={setsearchQuery} searchDrop ={setsearchDrop} />
+          <Search query={searchQuery} setQuery={setsearchQuery} searchDrop ={setsearchDrop} closeSearchDrop = {closeSearchDrop}/>
         </div>
         <div className="Side">
           <SideBar

@@ -7,10 +7,11 @@
     gap: 20px;
 }
 .searchInput{
-    width: 80%;
-    height: 50%;
+    width: 90%;
+    height: 60%;
     border-radius: 10px;
-    border: 1px solid gray;
+    border: none;
+    background-color: rgb(226, 224, 224);
     padding: 10px;
 }
 .submitSearch{
