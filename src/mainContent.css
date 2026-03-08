@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
-
+   
     padding: 10px; 
     position: relative;
 }
@@ -37,3 +37,9 @@
   object-fit: cover; /* crop to fit container */
 }
 
+.loadingAniamtion{
+    position: absolute;
+    left: 50%;
+width: 20%;
+height: 65px;;
+}

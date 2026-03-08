@@ -13,6 +13,7 @@ function MainContent(props :any) {
     const [clickedPost , setclickedPost] = useState<string>("")
     const [page, setPage] =useState(1)
     const [dropQuery,setDropQuery] = useState<string>("")
+    const isFirstFetch = useRef(true);
    useEffect(() => {
     const element = containerRef.current;
     if (!element) return;
@@ -29,12 +30,12 @@ function MainContent(props :any) {
 
 
   function fetching(state : string , looking : any){   
-   
+        console.log("fetching with state : " , state , " and looking for : " , looking)
          if(state === "choice" || state === "search"){
           setLoading(true)
           setPhotos([])
         }  
-    
+        
         
         const req = async ()=>{
             try{
@@ -77,15 +78,19 @@ function MainContent(props :any) {
         
     
     useEffect(()=>{
-        if(!bottom && firstfetch) return;
+        
+        if(!bottom || !firstfetch) return;
         setPage(prev=> prev < 85 ? prev+1 : prev)
         fetching("scroll" , lastAction)
+        console.log("hello moms")
+        
     },[bottom]);
 
     useEffect(()=>{
+        
         fetching("choice",props.intrest)
         setlastAction(props.intrest)
-        console.log("intrests are changin s")
+        
     },[props.intrest])
 
     useEffect(()=>{
@@ -93,19 +98,26 @@ function MainContent(props :any) {
         setlastAction(props.query)
         
     },[props.query])
+
     useEffect(()=>{
         fetching("search",dropQuery)
         setlastAction(dropQuery)
+        
     },[dropQuery])
-    function clickPost(link : string ){
+
+    function clickPost(link : string, info: any ){
         props.viewPost(true)
         setclickedPost(link)
+        props.resetInstrest(info)
+        fetching("search",info)
+        setlastAction(info)
+        console.log("clicked post is : " , info)
         setPhotos(prev => prev.filter((prev : any )=> prev.src.large != link))
     }
     
     return (
-        <div className= "MainContentVid" ref={containerRef} style={{  overflowY: "scroll" }} onClick={props.closeSearchDrop}>
-            {props.searchDrop &&<SearchDrop setquery={setDropQuery}/>}
+        <div className= "MainContentVid "  ref={containerRef} style={{  overflowY: "scroll" , placeItems : loading? "start" : "", paddingTop : loading?"64px":"0"} } onClick={props.closeSearchDrop}>
+            {props.searchDrop &&<SearchDrop setquery={setDropQuery} closeDrop = {props.setSearchDrop} closePost = {props.closeDrop}/>}
             {
                 loading &&
                     <div className="loadingAniamtion">
@@ -117,7 +129,7 @@ function MainContent(props :any) {
 
                 {photos.length === 0 ? (<></> ): (
                             photos.map((e : any ,index)=>(
-                                    <div className={`postContainer` }key={index} onClick={()=>clickPost(e.src.large)} >
+                                    <div className={`postContainer` }key={index} onClick={()=>clickPost(e.src.large,e.alt)} >
                                         <img src={e.src.medium} >
                                         </img>
                                     </div>

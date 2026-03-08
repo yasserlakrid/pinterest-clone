@@ -50,10 +50,7 @@ function App() {
     closeOthers(openMessages,[openCreate,openNotification,openPar])
   }
   
-  function callHome(){
-    setpostView(false)
-    return setinterest("random")
-  }
+  
   function closeSearchDrop(item :any){
     console.log(item.currentTarget.classList)
    if( !item.target.classList.contains("s") ){
@@ -75,7 +72,8 @@ function App() {
             toggleCreate={toggleCreate}
             toggleNotification={toggleNotification}
             toggleMessages = {toggleMessages}
-            setintrest = {callHome}
+            setintrest = {setinterest}
+            closePost = {setpostView}
             closeSearchDrop = {closeSearchDrop}
           />
         </div>
@@ -85,7 +83,7 @@ function App() {
             {create && <Create />}
             {notification && <Notification />}
             {messages && <Messages />}
-            <MainContent intrest = {interest} query= {searchQuery} post = {postView} viewPost= {setpostView} searchDrop={searchDrop}  closeSearchDrop = {closeSearchDrop}/>
+            <MainContent intrest = {interest} query= {searchQuery} post = {postView} viewPost= {setpostView} searchDrop={searchDrop}  closeSearchDrop = {closeSearchDrop} resetInstrest={(e:string)=>setinterest(e)} setSearchDrop={setsearchDrop} closeDrop={closeSearchDrop}/>
             
           </div>
           {exploreSh && <ExploreList toggleList={toggleList} intrest = {interest} setintrest={setinterest}/>}

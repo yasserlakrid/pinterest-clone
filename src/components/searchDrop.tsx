@@ -1,6 +1,6 @@
 
   import "./searchDrop.css"
-function SearchDrop({setquery }: any){
+function SearchDrop({setquery , closeDrop , closePost}: any){
      const ListOfIntrest = [
     "Art",
     "Animaux de compagnie",
@@ -16,7 +16,11 @@ function SearchDrop({setquery }: any){
     "Fitness",
     "Mariages",
   ];
-
+  function handleClick(e :string){
+   
+    closeDrop(false)
+    return setquery(e);
+  }
     return (
         <div className="SearchDrop s">
             <div className="recherched s">
@@ -25,7 +29,7 @@ function SearchDrop({setquery }: any){
                 </p>
                 <div className="s">
                     {ListOfIntrest.map((e,index)=>
-                        <div key = {index} className="s" onClick={()=>setquery(e)}>
+                        <div key = {index} className="s" onClick={()=>handleClick(e)}>
                             {e}
                         </div>
                     )}

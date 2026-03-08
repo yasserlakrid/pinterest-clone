@@ -10,8 +10,11 @@ import NotificationLogo from "../assets/bell.png";
 import commentsLogo from "../assets/comment.png";
 import settingsLogo from "../assets/adjust.png";
 
-function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , toggleMessages , setintrest , closeSearchDrop}: any) {
- 
+function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , toggleMessages , setintrest , closeSearchDrop , closePost }: any) {
+  const callHome = ()=>{
+    setintrest("random")
+    closePost(false)
+  }
   function renderCompass() {}
   function refrech() {
     window.location.reload();
@@ -23,7 +26,7 @@ function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , t
         <div className="logo PintLogo " onClick={refrech}>
           <img src={pinterestLogo} />
         </div>
-        <div className="logo HomeLogo " onClick={()=>setintrest("random")}>
+        <div className="logo HomeLogo " onClick={callHome}>
           <img src={HomeLogo} />
         </div>
 
