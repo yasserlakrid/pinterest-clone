@@ -22,8 +22,9 @@ function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , t
 
   return (
     <>
-      <div className="Sidecontainer" onClick={closeSearchDrop}>
-        <div className="logo PintLogo " onClick={refrech}>
+    <div className="Sidecontainer" onClick={closeSearchDrop}>
+<div className="div1">
+<div className="logo PintLogo " onClick={refrech}>
           <img src={pinterestLogo} />
         </div>
         <div className="logo HomeLogo " onClick={callHome}>
@@ -46,9 +47,18 @@ function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , t
         <div className="logo messagesLogo " onClick={toggleMessages}>
           <img src={commentsLogo} />
         </div>
-        <div className="logo settingsLogo " onClick={toggleParam}>
+</div>
+    <div className="div2">
+<div className="logo settingsLogo " onClick={toggleParam}>
           <img src={settingsLogo} />
-        </div>
+        
+       </div> 
+      </div>
+        
+    
+        
+      
+        
       </div>
     </>
   );

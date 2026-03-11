@@ -42,7 +42,7 @@ function MainContent(props :any) {
                 if(props.intrest.length === 0) {
                     props.setintrest((prev : any) => [...prev, "random"])
                 }
-                const reqs =  await fetch(`https://api.pexels.com/v1/search?query=${looking || "random"}&page=${page}&per_page=15`,{
+                const reqs =  await fetch(`https://api.pexels.com/v1/search?query=${looking || "random"}&page=${page}&per_page=25`,{
                 headers: {
                 Authorization: accessKey
             }

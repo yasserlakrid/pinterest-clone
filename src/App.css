@@ -17,6 +17,7 @@
     width: 320px;
   }
 }
+
 .main-content {
   overflow-y: auto;
 }
@@ -27,6 +28,7 @@
   grid-template-rows: 80px 1fr;
   grid-template-areas: "side search" "side main";
 }
+
 @media (max-width:760px) {
   .Container {
   display: grid;
