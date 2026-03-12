@@ -1,0 +1,84 @@
+.AuthPage{
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.sider{
+    width: 50%;
+}
+.authMain{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    align-items: center;
+    gap: 30px;
+}
+.toggler{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    border: 1px solid gray;
+    border-radius: 20px;
+    padding:  10px ;
+    
+}
+.toggler button{
+    background-color: dodgerblue;
+    border: none;
+    border-radius: 10px;
+    width: 120px;
+    height: 40px;
+    color: white;
+    font-weight: 700;
+    font-size: larger;
+    cursor: pointer;
+    
+}
+@media (max-width : 760px) {
+    .sider{
+        display: none;
+    }
+}
+.signUpPage{
+    height: 100vh;
+    display: flex;
+    gap: 25px;
+    flex-direction: column;
+    
+}
+.name{
+    display: flex;
+    gap: 20px;
+    flex-direction:row;
+    height: 10%;
+    align-items: center;
+}
+.signUp input{
+    height: 40px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 10px;
+}
+.password input{
+    width: 100%;
+}
+.logginBtn{
+    background-color: dodgerblue;
+    border: none;
+    border-radius: 10px;
+    
+    height: 40px;
+    color: white;
+    font-weight: 700;
+    font-size: larger;
+    cursor: pointer;
+}
+.SignUpPage{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: centers;
+}

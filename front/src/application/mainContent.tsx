@@ -1,8 +1,8 @@
 import "./mainContent.css"
 import {  useEffect, useRef, useState } from "react"
-import BigPost from "./components/bigPost.tsx"
+import BigPost from "../components/bigPost.tsx"
 const accessKey = "RAkFPc9q0iKs6GarPDAw07HMQ8ktUKAnXdqk2U9DAA5FWJUCRF2xaaS1"
-import SearchDrop from "./components/searchDrop.tsx"
+import SearchDrop from "../components/searchDrop.tsx"
 function MainContent(props :any) {
     const [bottom , reachedBottom ] = useState(false);
     const containerRef = useRef<HTMLDivElement | null>(null); 

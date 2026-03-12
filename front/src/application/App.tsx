@@ -1,14 +1,14 @@
 import { useState } from "react";
 
-import SideBar from "./components/sideBar";
-import Search from "./components/search";
-import Parameter from "./components/parameter";
-import Notification from "./components/notification";
-import Messages from "./components/messages";
+import SideBar from "../components/sideBar";
+import Search from "../components/search";
+import Parameter from "../components/parameter";
+import Notification from "../components/notification";
+import Messages from "../components/messages";
 //components
-import ExploreList from "./components/exploreList";
+import ExploreList from "../components/exploreList";
 import MainContent from "./mainContent"
-import Create from "./components/create";
+import Create from "../components/create";
 import "./App.css";
 
 function App() {
@@ -79,11 +79,23 @@ function App() {
         </div>
         <div className="Main">
           <div className={`MainContent ${(param || create || notification || messages) ? "with-param" : ""}`}>
+
             {param && <Parameter />}
             {create && <Create />}
             {notification && <Notification />}
             {messages && <Messages />}
-            <MainContent intrest = {interest} query= {searchQuery} post = {postView} viewPost= {setpostView} searchDrop={searchDrop}  closeSearchDrop = {closeSearchDrop} resetInstrest={(e:string)=>setinterest(e)} setSearchDrop={setsearchDrop} closeDrop={closeSearchDrop}/>
+
+            <MainContent 
+              intrest = {interest} 
+              query= {searchQuery} 
+              post = {postView} 
+              viewPost= {setpostView} 
+              searchDrop={searchDrop}  
+              closeSearchDrop = {closeSearchDrop} 
+              resetInstrest={(e:string)=>setinterest(e)} 
+              setSearchDrop={setsearchDrop} 
+              closeDrop={closeSearchDrop}
+            />
             
           </div>
           {exploreSh && <ExploreList toggleList={toggleList} intrest = {interest} setintrest={setinterest}/>}
