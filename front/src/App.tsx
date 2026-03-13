@@ -3,10 +3,15 @@ import Application from "./application/Application";
 import Auth from "./auth/authPage";
 
 function App(){
-    //localStorage.clear()
+  //localStorage.clear()
+     const [logginInfo , setLogginInfo]= useState({
+        email : "",
+        password : "",
+    });
+    
     const [logged , setLogged] = useState(localStorage.getItem("state") ? true : false)
     return(
-        logged ? <Application/> : <Auth logged = {setLogged}/>
+        logged ? <Application user = {logginInfo}/> : <Auth logged = {setLogged} logginInfo={logginInfo} setLogginInfo={setLogginInfo}/>
     )
 }
 export default App

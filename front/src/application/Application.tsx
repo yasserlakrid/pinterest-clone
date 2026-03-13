@@ -11,7 +11,7 @@ import MainContent from "./mainContent"
 import Create from "../components/create";
 import "./Application.css";
 
-function Application() {
+function Application({user} : any) {
   const [exploreSh, setDis] = useState(false);
   const [param, openPar] = useState(false);
   const [create, openCreate] = useState(false);

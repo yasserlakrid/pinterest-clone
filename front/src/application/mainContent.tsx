@@ -45,7 +45,7 @@ function MainContent(props :any) {
                 const reqs =  await fetch(`https://api.pexels.com/v1/search?query=${looking || "random"}&page=${page}&per_page=25`,{
                 headers: {
                 Authorization: accessKey
-            }
+                }
             })
               if (!reqs.ok) {
                     const text = await reqs.text();

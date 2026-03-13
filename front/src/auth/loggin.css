@@ -8,6 +8,13 @@
 
 }
 .logginPage div{
+    display: flex;
+    
+    align-items: center;
+    justify-content: center;
     height:64px;
-    width: 50%;
+    width: 330px;
+}
+.ErrorMsg p{
+    color: crimson;
 }
