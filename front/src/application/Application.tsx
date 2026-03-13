@@ -9,9 +9,9 @@ import Messages from "../components/messages";
 import ExploreList from "../components/exploreList";
 import MainContent from "./mainContent"
 import Create from "../components/create";
-import "./App.css";
+import "./Application.css";
 
-function App() {
+function Application() {
   const [exploreSh, setDis] = useState(false);
   const [param, openPar] = useState(false);
   const [create, openCreate] = useState(false);
@@ -106,4 +106,4 @@ function App() {
   );
 }
 
-export default App;
+export default Application;

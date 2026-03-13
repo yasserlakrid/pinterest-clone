@@ -2,7 +2,7 @@ import { useState , useEffect } from "react"
 import SignUp from "./signup"
 import Loggin from "./loggin"
 import "./authPage.css"
-function Auth(){
+function Auth({logged} : any){
     const [loggedIn , setLoggedIn] = useState(false);
     const [page , setPage] = useState(loggedIn ? "signUp" : "loggin")
     return (
@@ -12,7 +12,7 @@ function Auth(){
             </div>
             <div className="authMain">
                 <h1>
-                    Hello { page == "signUp" ? <span>again</span> : "" } to Pintrest
+                     { page !== "signUp" ? <p>Nice to see you again ! </p> : <p>Welcome to Pintrest</p> } 
                 </h1>
                 <div className="toggler">
                         <div className="signInBtnCon">
@@ -29,7 +29,7 @@ function Auth(){
                 {loggedIn || page == "signUp"? (
                     <SignUp />
                 ):(
-                    <Loggin/>
+                    <Loggin logged = {logged}/>
                 ) }
             </div>
         </div>

@@ -1,0 +1,15 @@
+.SignUpPage{
+    display: flex;
+   justify-content: space-evenly;
+    flex-direction: column;
+    gap: 20px;
+}
+.name{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+.SignUpPage div{
+    height:64px;
+}
