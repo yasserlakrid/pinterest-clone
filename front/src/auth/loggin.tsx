@@ -23,6 +23,9 @@ function Loggin({logged , logginInfo , setLogginInfo}:any){
                 setWrongPass(false)
                 setLogginInfo(data)
                 logged(true)
+                localStorage.setItem("state" , "logged")
+                localStorage.setItem("user",JSON.stringify(data));
+                
             }
             
             
@@ -52,7 +55,7 @@ function Loggin({logged , logginInfo , setLogginInfo}:any){
                 <input type="text" placeholder="Email" value={logginInfo.email} onChange={(e:any)=>setLogginInfo({...logginInfo, email : e.target.value})}/>
             </div>
             <div className="password">
-                <input type="text" placeholder="Password" value={logginInfo.password} onChange={(e:any)=>setLogginInfo({...logginInfo , password : e.target.value})}/>
+                <input type="password" placeholder="Password" value={logginInfo.password } onChange={(e:any)=>setLogginInfo({...logginInfo , password : e.target.value})}/>
             </div>
            
             {wrongPass && <div className="ErrorMsg"> <p> {errorMsg} </p> </div> }

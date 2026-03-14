@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import SideBar from "../components/sideBar";
 import Search from "../components/search";
@@ -11,7 +11,7 @@ import MainContent from "./mainContent"
 import Create from "../components/create";
 import "./Application.css";
 
-function Application({user} : any) {
+function Application({user ,  logState} : any) {
   const [exploreSh, setDis] = useState(false);
   const [param, openPar] = useState(false);
   const [create, openCreate] = useState(false);
@@ -63,7 +63,7 @@ function Application({user} : any) {
     <>
       <div className="Container">
         <div className="Search">
-          <Search query={searchQuery} setQuery={setsearchQuery} searchDrop ={setsearchDrop} closeSearchDrop = {closeSearchDrop}/>
+          <Search query={searchQuery} setQuery={setsearchQuery} searchDrop ={setsearchDrop} closeSearchDrop = {closeSearchDrop} user={user} logState = {logState}/>
         </div>
         <div className="Side">
           <SideBar
@@ -75,6 +75,7 @@ function Application({user} : any) {
             setintrest = {setinterest}
             closePost = {setpostView}
             closeSearchDrop = {closeSearchDrop}
+            user = {user}
           />
         </div>
         <div className="Main">

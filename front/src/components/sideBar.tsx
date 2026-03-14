@@ -10,7 +10,7 @@ import NotificationLogo from "../assets/bell.png";
 import commentsLogo from "../assets/comment.png";
 import settingsLogo from "../assets/adjust.png";
 
-function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , toggleMessages , setintrest , closeSearchDrop , closePost }: any) {
+function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , toggleMessages , setintrest , closeSearchDrop , closePost , user}: any) {
   const callHome = ()=>{
     setintrest("random")
     closePost(false)
