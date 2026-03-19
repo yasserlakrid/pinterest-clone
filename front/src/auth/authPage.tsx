@@ -24,10 +24,21 @@ function Auth({logged , logginInfo , setLogginInfo} : any){
                             </button>
                         </div>
                         <div className="logginBtnCon">
-                            <button className="logginBtn" onClick={()=>setPage("Loggin")}>
+                            <button className="logginBtnT" onClick={()=>setPage("Loggin")}>
                                  Log in 
                             </button>
                         </div>
+
+                {page == "signUp"? (
+                   <div className="activeBack" style={{transform: 'translateX(0px)'}}  >
+                            Sign in 
+                    </div>
+                ):(
+                    <div className="activeBack" style={{transform: 'translateX(110%)'}} >
+                           Log in 
+                    </div>
+                ) }
+                        
             </div>
                 {loggedIn || page == "signUp"? (
                     <SignUp logged = {logged}/>

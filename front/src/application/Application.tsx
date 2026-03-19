@@ -99,7 +99,7 @@ function Application({user ,  logState} : any) {
             />
             
           </div>
-          {exploreSh && <ExploreList toggleList={toggleList} intrest = {interest} setintrest={setinterest}/>}
+          {exploreSh && <ExploreList toggleList={toggleList} intrest = {interest} setintrest={setinterest} closeBigPost={setpostView} />}
 
         </div>
       </div>

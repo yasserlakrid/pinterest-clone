@@ -14,16 +14,17 @@ function MainContent(props :any) {
     const [page, setPage] =useState(1)
     const [dropQuery,setDropQuery] = useState<string>("")
     const isFirstFetch = useRef(true);
-   useEffect(() => {
+
+useEffect(() => {
     const element = containerRef.current;
     if (!element) return;
 
     const handleScroll = () => {
-      const atBottom =
-        element.scrollTop + element.clientHeight >= element.scrollHeight - 5;
+      const atBottom =( element.scrollTop + element.clientHeight >= element.scrollHeight - 5);
+       
       reachedBottom(atBottom);
     };
-
+   
     element.addEventListener("scroll", handleScroll);
     return () => element.removeEventListener("scroll", handleScroll);
   }, []);
@@ -116,7 +117,7 @@ function MainContent(props :any) {
     }
     
     return (
-        <div className= "MainContentVid "  ref={containerRef} style={{  overflowY: "scroll" , placeItems : loading? "start" : "", paddingTop : loading?"64px":"0"} } onClick={props.closeSearchDrop}>
+        <div className= "MainContentVid "  ref={containerRef} style={{ placeItems : loading? "start" : "", paddingTop : loading?"64px":"0"} } onClick={props.closeSearchDrop}>
             {props.searchDrop &&<SearchDrop setquery={setDropQuery} closeDrop = {props.setSearchDrop} closePost = {props.closeDrop}/>}
             {
                 loading &&

@@ -1,6 +1,6 @@
 import "./exploreList.css";
 
-function ExploreList({ toggleList  , setintrest}: any )  {
+function ExploreList({ toggleList  , setintrest ,closeBigPost}  : any )  {
 
   const ListOfIntrest = [
     "Art",
@@ -17,12 +17,16 @@ function ExploreList({ toggleList  , setintrest}: any )  {
     "Fitness",
     "Mariages",
   ];
+  function handleClick(e : any){
+    setintrest(e)
+    closeBigPost(false)
+  }
   return (
     <>
       <div className="containerList" onMouseLeave={toggleList}>
         {ListOfIntrest.map((e,index) => (
           <div key = {index}>
-            <p onClick={()=>setintrest(e)}> {e}</p>
+            <p onClick={()=>handleClick(e)}> {e}</p>
           </div>
         ))}
       </div>
