@@ -9,13 +9,18 @@ function MainContent(props :any) {
     const [loading , setLoading] = useState(true)
     const [firstfetch , setFirstFetch] = useState(false)
     const [photos , setPhotos] = useState<object[]>([])
+    const [columns , setColumns] = useState<Array<object[]>>([])
     const [lastAction , setlastAction] = useState<any>("random")
     const [clickedPost , setclickedPost] = useState<string>("")
     const [page, setPage] =useState(1)
     const [dropQuery,setDropQuery] = useState<string>("")
     const isFirstFetch = useRef(true);
 
-useEffect(() => {
+    //the number of columns 
+
+    const [viewPort , setViewPort] = useState<number>(Math.floor( window.innerWidth / (15 + 220)))
+
+   useEffect(() => {
     const element = containerRef.current;
     if (!element) return;
 
@@ -24,10 +29,28 @@ useEffect(() => {
        
       reachedBottom(atBottom);
     };
-   
     element.addEventListener("scroll", handleScroll);
     return () => element.removeEventListener("scroll", handleScroll);
   }, []);
+
+// define the number of columns 
+
+useEffect(()=>{
+window.addEventListener("resize" , ()=>setViewPort(Math.floor( window.innerWidth / (15 + 220))))
+return ()=> window.removeEventListener("resize" ,  ()=>setViewPort(Math.floor( window.innerWidth / (15 + 220))))
+},[])
+
+
+  //i should edit this function to share photos to columns based on the shotrest one 
+function addItemToEachColumn(items : Array<object>  , length : number ){
+
+    for(let i = 0 ; i < length ; i ++){
+        setColumns(prev => prev.map((column ,index)=>
+               {
+                return  i == index ? [...column , items[i]] : column}
+        ))
+    }
+}
 
 
   function fetching(state : string , looking : any){   
@@ -43,7 +66,7 @@ useEffect(() => {
                 if(props.intrest.length === 0) {
                     props.setintrest((prev : any) => [...prev, "random"])
                 }
-                const reqs =  await fetch(`https://api.pexels.com/v1/search?query=${looking || "random"}&page=${page}&per_page=25`,{
+                const reqs =  await fetch(`https://api.pexels.com/v1/search?query=${looking || "random"}&page=${page}&per_page=${viewPort}`,{
                 headers: {
                 Authorization: accessKey
                 }
@@ -55,19 +78,20 @@ useEffect(() => {
                 }
 
             const data = await reqs.json() 
-            console.log("the data is  : " , data)
+        
            if(state == "scroll"){
             setPhotos(prev => [...prev, ...data.photos])
+            addItemToEachColumn( data.photos, viewPort )
+            
+
            }else if(state == "choice" || state == "search"){
             setPage(1)
             setPhotos([...data.photos])
-           }
-            
-           
+            setColumns([[],[],[],[],[],[],[]])
+            addItemToEachColumn(data.photos , viewPort)
+            }
             setFirstFetch(true)
-
             setLoading(false)
-            
             }catch(err){
                 console.log("error fetching", err)
             }
@@ -83,7 +107,6 @@ useEffect(() => {
         if(!bottom || !firstfetch) return;
         setPage(prev=> prev < 85 ? prev+1 : prev)
         fetching("scroll" , lastAction)
-        console.log("hello moms")
         
     },[bottom]);
 
@@ -112,7 +135,7 @@ useEffect(() => {
         props.resetInstrest(info)
         fetching("search",info)
         setlastAction(info)
-        console.log("clicked post is : " , info)
+        
         setPhotos(prev => prev.filter((prev : any )=> prev.src.large != link))
     }
     
@@ -128,17 +151,37 @@ useEffect(() => {
             }
             {props.post && <BigPost postUrl = {clickedPost}/>}
 
-                {photos.length === 0 ? (<></> ): (
-                            photos.map((e : any ,index)=>(
-                                    <div className={`postContainer` }key={index} onClick={()=>clickPost(e.src.large,e.alt)} >
-                                        <img src={e.src.medium} >
-                                        </img>
-                                    </div>
+               {columns.length === 0 ? (<>
+               
+               </> ): (
+
+                            columns.map((column : Array<object> ,index : number)=>(
+                                    <div className="column" key={index}>
+                                        {column.map((post : object | any , index2 : number)=>(
+                                             <div className={`postContainer` }key={index2} onClick={()=>clickPost(post.src.large,post.alt)} >
+                                                    <img src={post.src.medium}>
+                                                    </img>
+                                              </div> 
+                                        ))}
+                                        
+                                     </div>   
                                     )))
                 }
+                      
                 
         </div>
 
     )
 }
+
+
 export default MainContent
+/*              
+                
+         {photos.length!=0 && photos.map((e : any ,index)=>(
+                                    <div className={`postContainer` }key={index} onClick={()=>clickPost(e.src.large,e.alt)} >
+                                        <img src={e.src.medium} >
+                                        </img>
+                                    </div>
+                                    )) }      
+                */
