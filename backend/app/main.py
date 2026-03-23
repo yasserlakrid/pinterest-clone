@@ -29,6 +29,8 @@ app.add_middleware(
         "http://localhost:4173",
         "http://127.0.0.1:4173",
     ],
+    # Covers localhost/127.0.0.1 with any dev port (e.g. 5173, 5174) and IPv6 loopback.
+    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -19,12 +19,12 @@ function Auth({logged , logginInfo , setLogginInfo} : any){
                 </h1>
                 <div className="toggler">
                         <div className="signInBtnCon">
-                            <button className="signInBtn" onClick={()=>setPage("signUp")}>
+                            <button className={"signInBtn" + (page == "signUp" ? "" : " non")}  onClick={()=>setPage("signUp")}>
                                 Sign in 
                             </button>
                         </div>
-                        <div className="logginBtnCon">
-                            <button className="logginBtnT" onClick={()=>setPage("Loggin")}>
+                        <div className={"logginBtnCon"}>
+                            <button className={"logginBtnT"  + (page != "signUp" ? "" : " non")} onClick={()=>setPage("Loggin")}>
                                  Log in 
                             </button>
                         </div>

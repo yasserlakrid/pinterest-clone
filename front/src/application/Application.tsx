@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import SideBar from "../components/sideBar";
 import Search from "../components/search";
@@ -21,7 +21,8 @@ function Application({user ,  logState} : any) {
   const [searchQuery , setsearchQuery] = useState<string>("")
   const [postView , setpostView] = useState<boolean>(false)
   const [searchDrop , setsearchDrop ] = useState(false)
-    
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  
  //side bar functions 
   function closeOthers(open: ( (state : (prev: Boolean) => boolean)=> void), close : ( (state : boolean)=> void)[] ){
     open((prev : Boolean)=> !prev)
@@ -78,7 +79,7 @@ function Application({user ,  logState} : any) {
             user = {user}
           />
         </div>
-        <div className="Main">
+        <div className="Main" ref={containerRef}>
           <div className={`MainContent ${(param || create || notification || messages) ? "with-param" : ""}`}>
 
             {param && <Parameter />}
@@ -96,6 +97,7 @@ function Application({user ,  logState} : any) {
               resetInstrest={(e:string)=>setinterest(e)} 
               setSearchDrop={setsearchDrop} 
               closeDrop={closeSearchDrop}
+              containerRef={containerRef}
             />
             
           </div>

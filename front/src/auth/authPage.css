@@ -9,6 +9,7 @@
     height: 100%;
     position: relative;
 }
+
 .Dividing-sections {
     height: 10%;
 }
@@ -38,7 +39,11 @@
     background: transparent;
     border: none;
     font-weight: 700;
+   
     font-size: larger;
+}
+.non{
+  cursor: pointer;
 }
 @media (max-width : 760px) {
     .sider{
@@ -56,7 +61,7 @@
     color: white;
     font-weight: 700;
     font-size: larger;
-    cursor: pointer;
+   
 }
 input{
     height: 100%;
@@ -134,7 +139,7 @@ input{
     color: white;
     font-weight: 700;
     font-size: larger;
-    cursor: pointer;
+  
   transition:transform 0.3s  ease-in-out;
  
   display: flex;
