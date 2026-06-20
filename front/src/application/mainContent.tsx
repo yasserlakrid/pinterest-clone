@@ -45,13 +45,26 @@ function reDefineSize( Setarray  : any , length : number , target : number){
         }
     }else{
         for(let i = 0 ; i < length - target ;i ++  ){
-            Setarray((prev : any )=> prev.slice(0,-1))
-            console.log("the final reached view port is : " , i)
+           mergeTheLastArray(columns)
+           console.log("the final reached view port is : " , i)
         }
     }
     
 }
+function mergeTheLastArray(listOfArrays : column[] ){
+    console.log("the last array is : " , listOfArrays[listOfArrays.length - 1])
+    const lastColumnPosts = copyArray(listOfArrays[listOfArrays.length - 1].posts)
+    
+    addItemToEachColumn( lastColumnPosts , lastColumnPosts.length)
 
+    listOfArrays.splice(0,-1)
+}  
+function copyArray(array : any[]){
+    const copy = array.map((object)=>{
+        return {...object }
+    })
+    return copy
+}
 useEffect(()=>{
 reDefineSize(setColumns ,  columns.length || 0 , viewPort)
 fetching("scroll" , lastAction)
@@ -77,10 +90,7 @@ function minHeightIndex(columns : any ){
 
 function addItemToEachColumn(items : Array<any> , length : number){
     setColumns((prevColumns : column[])=>{
-        const nextColumns = prevColumns.map((columnObject)=>({
-            ...columnObject,
-            posts: [...columnObject.posts]
-        }))
+        const nextColumns = copyArray(prevColumns)
 
         if (!nextColumns.length || !items.length) {
             return nextColumns
@@ -246,12 +256,3 @@ function addItemToEachColumn(items : Array<any> , length : number){
 
 
 export default MainContent
-/*              
-                
-         {photos.length!=0 && photos.map((e : any ,index)=>(
-                                    <div className={`postContainer` }key={index} onClick={()=>clickPost(e.src.large,e.alt)} >
-                                        <img src={e.src.medium} >
-                                        </img>
-                                    </div>
-                                    )) }      
-                */
