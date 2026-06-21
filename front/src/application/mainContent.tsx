@@ -1,5 +1,5 @@
 import "./mainContent.css"
-import {  use, useEffect, useRef, useState } from "react"
+import {  useEffect, useRef, useState } from "react"
 import BigPost from "../components/bigPost.tsx"
 const accessKey = "RAkFPc9q0iKs6GarPDAw07HMQ8ktUKAnXdqk2U9DAA5FWJUCRF2xaaS1"
 import SearchDrop from "../components/searchDrop.tsx"
@@ -13,13 +13,16 @@ function MainContent(props :any) {
     const [loading , setLoading] = useState(true)
     const [firstfetch , setFirstFetch] = useState(false)
     const [photos , setPhotos] = useState<object[]>([])
+
     const [columns , setColumns] = useState<column[]>([{posts : [] , length : 0}])
+
     const [lastAction , setlastAction] = useState<any>("random")
     const [clickedPost , setclickedPost] = useState<string>("")
     const [page, setPage] =useState(1)
     const [dropQuery,setDropQuery] = useState<string>("")
-    const isFirstFetch = useRef(true);
+  
     const firstFetch = useRef(true)
+    const firstRender = useRef(true)
     const [viewPort , setViewPort] = useState<number>(Math.floor( window.innerWidth /((15 + 220 ) + 20)))
 
 //track the scroll move 
@@ -27,52 +30,114 @@ function MainContent(props :any) {
     const element = props.containerRef.current;
     if (!element) return;
     const handleScroll = () => {
-    const atBottom =( element.scrollTop + element.clientHeight >= element.scrollHeight - 5);
-    reachedBottom(atBottom);
+        const atBottom =( element.scrollTop + element.clientHeight >= element.scrollHeight - 5);
+        reachedBottom(atBottom);
     };
     element.addEventListener("scroll", handleScroll);
     return () => element.removeEventListener("scroll", handleScroll);
   }, []);
 
-// define the number of columns 
-function reDefineSize( Setarray  : any , length : number , target : number){
-    console.log("the actual view port is " , length  , 'the targeted view port is ' ,target )
-    //Setarray([{posts : [{}] , length : 0}])
-    if(length < target){
-        for(let i = 0 ; i < target   - length   ; i ++){
-             Setarray((prev : any) => [...prev , {posts : [] , length : 0}])
-             console.log("the final reached view port is : " , i)  
+
+
+function redefinePage( actlength : number , target : number){
+        console.log("the number of columns is : " , actlength , " and the target is : " , target)
+        if(actlength > target && target > 1){
+            setColumns((prev : any)=>{
+                const listTosave = [];
+                const copy = [...prev ]
+                for(let i = 0 ; i < target; i ++){
+                    listTosave.push(copy[i] ? copy[i] : [])
+                } 
+                return listTosave ; 
+            })
+            
+        
+        }else if(target > actlength){
+            setColumns((prev : column[])=>{
+                const next = [...prev]
+                for(let i = 0 ; i < (target - actlength) ; i ++){
+                    next.push({posts : next[1] ? next[1].posts : [] , length : next[1]?next[1].length:0 })
+                    console.log("adding a colomn with posts " , next[1].posts)
+                }
+                console.log("we reached " , next.length);
+                return next 
+            });
+            
         }
-    }else{
-        for(let i = 0 ; i < length - target ;i ++  ){
-           mergeTheLastArray(columns)
-           console.log("the final reached view port is : " , i)
-        }
-    }
+    
+      
     
 }
-function mergeTheLastArray(listOfArrays : column[] ){
-    console.log("the last array is : " , listOfArrays[listOfArrays.length - 1])
-    const lastColumnPosts = copyArray(listOfArrays[listOfArrays.length - 1].posts)
-    
-    addItemToEachColumn( lastColumnPosts , lastColumnPosts.length)
+//call this in case reducing the screen size
 
-    listOfArrays.splice(0,-1)
-}  
+function mergeTheLastArray(listOfArrays : column[] , setListofArrays : any ){
+    const lastColumnPosts = copyArray(listOfArrays[listOfArrays.length - 1].posts)
+    addItemToEachColumn( lastColumnPosts , lastColumnPosts.length)
+    setListofArrays(listOfArrays.filter((_,index) => index != (listOfArrays.length - 1) ))
+}
+
+//call this in case of increasing the screen size 
+function addNewColumn(setColomnsList : any , colomnsList : any , length : number ){
+    let posts :  Object[]
+    posts = []
+
+    let Newlength = 0 
+    for(let i = 0 ; i < length ; i++){
+        posts.push({})//now im adding the 1st post later i should detect the last post     
+        Newlength += 100
+    }
+    setColomnsList([...colomnsList, {posts , Newlength}])
+    
+    }
+
 function copyArray(array : any[]){
     const copy = array.map((object)=>{
         return {...object }
     })
     return copy
 }
+
+const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    function handleResize() {
+      const newWidth = window.innerWidth;
+    
+      setWidth(newWidth);
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+   
+    setViewPort(Math.floor(width / ((15 + 220) + 20)));
+  }, [width]);
+
 useEffect(()=>{
-reDefineSize(setColumns ,  columns.length || 0 , viewPort)
-fetching("scroll" , lastAction)
-console.log("the window length is : " , window.innerWidth , "the view port is : " , viewPort)
-window.addEventListener("resize" , ()=>setViewPort(Math.floor( window.innerWidth /((15 + 220 ) + 20)) ))
-return ()=> window.removeEventListener("resize" ,  ()=>setViewPort(Math.floor( window.innerWidth /((15 + 220 ) + 20))))
+    console.log("the view port is :  , " , viewPort)
+
 },[viewPort])
 
+ useEffect(()=>{
+    if(firstRender.current){
+        firstRender.current = false 
+        return 
+    }
+   console.log("not the initial render changing the columns size "); 
+    redefinePage(columns.length || 0 , viewPort)
+    
+ },[viewPort])
+
+
+useEffect(() => {
+    console.log("initial render , the view port is :  , " , viewPort , "and the columns length is : " , columns.length)
+    redefinePage(columns.length, viewPort);
+}, []); 
 
 function minHeightIndex(columns : any ){
     if (!columns.length) return 0
@@ -92,7 +157,7 @@ function addItemToEachColumn(items : Array<any> , length : number){
     setColumns((prevColumns : column[])=>{
         const nextColumns = copyArray(prevColumns)
 
-        if (!nextColumns.length || !items.length) {
+        if (!items.length) {
             return nextColumns
         }
 
@@ -149,13 +214,14 @@ function addItemToEachColumn(items : Array<any> , length : number){
         
            if(state == "scroll"){
             setPhotos(prev => [...prev, ...data.photos])
-            addItemToEachColumn( data.photos, viewPort )
            }else if(state == "choice" || state == "search"){
             setPage(1)
             setPhotos([...data.photos])
-            console.log('the actual number of colomn is ' , columns.length)
-            addItemToEachColumn(data.photos , viewPort)
             }
+
+            addItemToEachColumn(data.photos , viewPort)
+            console.log("we add items  " , data.photos , 'to this much of colomns : ' , viewPort) ; 
+
             setFirstFetch(true)
             setLoading(false)
             }catch(err){
@@ -164,17 +230,16 @@ function addItemToEachColumn(items : Array<any> , length : number){
         }
         req()
         }
-        
+     
+    //delete all rendered posts in the screen
     function resetPageColumns(){
          for(let i = 0 ; i < columns.length ; i ++){
         setColumns((prev : column[])=> prev.map((columnObject ,index)=>
         {
 
-           return i == index ? {...columnObject , posts : []} : columnObject
+           return i == index ? {...columnObject , posts : [] , length : 0 } : columnObject
 
         }
-                    
-            
         ))
     }
     }   
@@ -183,13 +248,14 @@ function addItemToEachColumn(items : Array<any> , length : number){
             firstFetch.current = false
             return
         }
-        if(!bottom || !firstfetch) return;
+        if(!bottom) return;
+        
         setPage(prev=> prev < 85 ? prev+1 : prev)
         fetching("scroll" , lastAction)
         
     },[bottom]);
-
-    useEffect(()=>{
+    
+   useEffect(()=>{
         resetPageColumns()
         fetching("choice",props.intrest)
         setlastAction(props.intrest)
@@ -216,7 +282,7 @@ function addItemToEachColumn(items : Array<any> , length : number){
         fetching("search",info)
         setlastAction(info)
         
-        setPhotos(prev => prev.filter((prev : any )=> prev.src.large != link))
+        setPhotos(prev => prev.filter((prev : any )=> prev?.src?.large != link))
     }
     
     return (
@@ -238,10 +304,12 @@ function addItemToEachColumn(items : Array<any> , length : number){
                             columns.map((column : column ,index : number)=>(
                                     <div className="column" key={index}>
                                         {column.posts.map((post : object | any , index2 : number)=>(
+                                             post && post.src ? (
                                              <div className={`postContainer` }key={index2} onClick={()=>clickPost(post.src.large,post.alt)} >
                                                     <img src={post.src.medium}>
                                                     </img>
-                                              </div> 
+                                              </div>
+                                             ) : null
                                         ))}
                                         
                                      </div>   
