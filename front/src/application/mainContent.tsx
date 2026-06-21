@@ -13,7 +13,7 @@ function MainContent(props :any) {
     const [loading , setLoading] = useState(true)
     const [firstfetch , setFirstFetch] = useState(false)
     const [photos , setPhotos] = useState<object[]>([])
-
+    
     const [columns , setColumns] = useState<column[]>([{posts : [] , length : 0}])
 
     const [lastAction , setlastAction] = useState<any>("random")
@@ -44,10 +44,16 @@ function redefinePage( actlength : number , target : number){
         if(actlength > target && target > 1){
             setColumns((prev : any)=>{
                 const listTosave = [];
+                const removablelist = []; 
+
                 const copy = [...prev ]
                 for(let i = 0 ; i < target; i ++){
                     listTosave.push(copy[i] ? copy[i] : [])
-                } 
+                    removablelist.push(copy[i+target] ? copy[i+target] : [])
+                }
+
+                mergeTheLastArray(listTosave , setColumns , removablelist) 
+                
                 return listTosave ; 
             })
             
@@ -70,10 +76,36 @@ function redefinePage( actlength : number , target : number){
 }
 //call this in case reducing the screen size
 
-function mergeTheLastArray(listOfArrays : column[] , setListofArrays : any ){
-    const lastColumnPosts = copyArray(listOfArrays[listOfArrays.length - 1].posts)
-    addItemToEachColumn( lastColumnPosts , lastColumnPosts.length)
-    setListofArrays(listOfArrays.filter((_,index) => index != (listOfArrays.length - 1) ))
+function mergeTheLastArray(listOfArrays : column[] , setListofArrays : any , listtoremove : column[]){
+    for(let j= 0 ; j< listtoremove.length ; j ++){
+        let list = listtoremove[j]
+        let i = 0 ;
+        let post 
+        if(list){
+        post = list.posts[0] ? list.posts[0] : null ; 
+        }else{
+            post = null
+        }
+        let k = 0 
+        while(post){
+            post = list.posts[i];
+            if(!listOfArrays[k]){
+                k = 0
+            }else{
+                k++
+            }
+            appendInArray(post , i , k, setListofArrays)
+            i++
+        }
+    }
+    
+
+}
+function appendInArray(post : any , index: number , listNumber : number , setter : any ){
+    
+    setter((prev : any) => {
+        return prev.map((item : any , index : any ) => index == listNumber ? {posts : [...prev.splice(0 , index ) , post , ...prev.splice(index)] , length : prev.length} : item )
+    })
 }
 
 //call this in case of increasing the screen size 
