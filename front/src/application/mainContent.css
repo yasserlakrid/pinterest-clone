@@ -7,6 +7,15 @@
     overflow-y: scroll;
     padding: 10px; 
 }
+
+@media (max-width: 520px) {
+    .MainContentVid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        padding: 8px;
+    }
+}
+
 .bigPost{
     grid-row: 1/4;
     grid-column: 1/4;
