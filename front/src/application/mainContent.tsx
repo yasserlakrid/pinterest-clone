@@ -207,10 +207,7 @@ function addItemToEachColumn(items : Array<any> , length : number){
                                     <div className="column" key={index}>
                                         {column.posts.map((post : object | any , index2 : number)=>(
                                              post && post.src ? (
-                                             <div className={`postContainer` }key={index2} onClick={()=>clickPost(post.src.large,post.alt)} >
-                                                    <img src={post.src.medium}>
-                                                    </img>
-                                              </div>
+                                            <LazyPost post={post} index={index2} clickPost={clickPost} parent={containerRef.current}/>
                                              ) : null
                                         ))}
                                         
@@ -224,5 +221,33 @@ function addItemToEachColumn(items : Array<any> , length : number){
     )
 }
 
+function LazyPost({post , index ,clickPost , parent }:any ){
+const [visible, setVisible] = useState(false)
+  const cardRef = useRef<HTMLDivElement | null>(null)
 
+  useEffect(() => {
+    const element = cardRef.current
+    if (!element) return
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setVisible(true)
+        observer.disconnect()
+      }
+    }, { root : parent , rootMargin: "200px", threshold: 0.1 })
+
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+     <div className={`postContainer` }key={index} onClick={()=>clickPost(post.src.large,post.alt)} >
+                                                  {visible ? (
+                                                    <img src={post.src.medium} />
+                                                  ) : (
+                                                    <div style={{ height: 300 }} />
+                                                  )}
+      </div>
+  )
+}
 export default MainContent
