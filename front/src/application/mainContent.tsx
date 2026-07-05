@@ -3,6 +3,7 @@ import {  useEffect, useRef, useState } from "react"
 import BigPost from "../components/bigPost.tsx"
 const accessKey = "RAkFPc9q0iKs6GarPDAw07HMQ8ktUKAnXdqk2U9DAA5FWJUCRF2xaaS1"
 import SearchDrop from "../components/searchDrop.tsx"
+
 function MainContent(props :any) {
     type column ={
         posts : object[],
@@ -22,7 +23,7 @@ function MainContent(props :any) {
   
     const firstFetch = useRef(true)
     const [viewPort , setViewPort] = useState<number>(Math.floor( window.innerWidth /((15 + 220 ) + 20)))
-
+    const [isScroling , setScroling] = useState(false)
     //track the scroll move 
    useEffect(() => {
     const element = props.containerRef.current;
@@ -30,6 +31,7 @@ function MainContent(props :any) {
     const handleScroll = () => {
         const atBottom =( element.scrollTop + element.clientHeight >= element.scrollHeight - 5);
         reachedBottom(atBottom);
+        setScroling(prev => !prev)
     };
     element.addEventListener("scroll", handleScroll);
     return () => element.removeEventListener("scroll", handleScroll);
@@ -100,6 +102,7 @@ function addItemToEachColumn(items : Array<any> , length : number){
     }
 
     setColumns(nextColumns)
+    
 }
   function fetching(state : string , looking : any, pageToUse: number = page){   
         console.log("fetching with state : " , state , " and looking for : " , looking)
@@ -207,7 +210,7 @@ function addItemToEachColumn(items : Array<any> , length : number){
                                     <div className="column" key={index}>
                                         {column.posts.map((post : object | any , index2 : number)=>(
                                              post && post.src ? (
-                                            <LazyPost post={post} index={index2} clickPost={clickPost} parent={containerRef.current}/>
+                                            <LazyPost post={post} index={index2} clickPost={clickPost} parent={containerRef.current} scrolingState = {isScroling} viewPort = {viewPort}/>
                                              ) : null
                                         ))}
                                         
@@ -221,33 +224,61 @@ function addItemToEachColumn(items : Array<any> , length : number){
     )
 }
 
-function LazyPost({post , index ,clickPost , parent }:any ){
-const [visible, setVisible] = useState(false)
-  const cardRef = useRef<HTMLDivElement | null>(null)
+function LazyPost({post , index ,clickPost , parent , scrolingState , viewPort}:any ){
+    const [visible, setVisible] = useState(false)
+    const cardRef = useRef<HTMLDivElement | null>(null)
+  
+    useEffect(() => {
+        const element = cardRef.current
+        if (!element) return
 
-  useEffect(() => {
-    const element = cardRef.current
-    if (!element) return
+        const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+            setVisible(true)
+            observer.disconnect()
+        }
+        }, { root :null ,  rootMargin: "200px", threshold: 0.1 })
 
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setVisible(true)
-        observer.disconnect()
-      }
-    }, { root : parent , rootMargin: "200px", threshold: 0.1 })
+        observer.observe(element)
+        return () => observer.disconnect()
+    }, [scrolingState])
+    useEffect(()=>{
+        console.log("the visibility of the card : " , cardRef.current , "is : " , visible)
+    },[visible])
 
-    observer.observe(element)
-    return () => observer.disconnect()
-  }, [])
+    //to calculate the height of the non rendered image 
 
-  return (
-     <div className={`postContainer` }key={index} onClick={()=>clickPost(post.src.large,post.alt)} >
-                                                  {visible ? (
-                                                    <img src={post.src.medium} />
-                                                  ) : (
-                                                    <div style={{ height: 300 }} />
-                                                  )}
-      </div>
-  )
+    const totalColumns = Math.max(1, viewPort)
+    const containerWidth = parent.current?.clientWidth ?? window.innerWidth
+    const horizontalGap = 15
+    const containerHorizontalPadding = 20
+    const columnWidth = Math.max(
+        220,
+        (containerWidth - containerHorizontalPadding - horizontalGap * (totalColumns - 1)) / totalColumns
+    )
+  
+        const imageWidth = post.width || 1
+        const imageHeight = post.height || 0
+        const renderedHeight = ((imageHeight / imageWidth) * columnWidth ) 
+
+      
+    return (
+    
+       
+<div className={`postContainer` }key={index} onClick={()=>clickPost(post.src.large,post.alt)} ref={cardRef}>
+              {
+            visible ? (   
+                                <img src={post.src.medium} style={{width: "100%", height: renderedHeight, objectFit: "cover", display: "block"  }} />
+                
+              ):(
+ <div style={{ height: renderedHeight }} />
+            )
+        } 
+            
+        </div>
+            
+        
+        
+    )
 }
 export default MainContent
