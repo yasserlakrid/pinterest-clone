@@ -17,18 +17,25 @@ from app.security import hash_password
 
 app = FastAPI()
 
-# CORS - allow frontend dev origins
+default_origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:3000/",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:4173",
+    "http://127.0.0.1:4173",
+]
+configured_origins = [
+    origin.strip()
+    for origin in os.getenv("CORS_ORIGINS", "").split(",")
+    if origin.strip()
+]
+
+# CORS - allow frontend dev origins plus any production origins configured in env
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:3000/",
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:4173",
-        "http://127.0.0.1:4173",
-    ],
+    allow_origins=default_origins + configured_origins,
     # Covers localhost/127.0.0.1 with any dev port (e.g. 5173, 5174) and IPv6 loopback.
     allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$",
     allow_credentials=True,
@@ -70,16 +77,20 @@ def create_default_admin():
 @app.on_event("startup")
 async def startup_event():
     """Initialize database and create default admin on startup"""
-    # DROP AND RECREATE TABLES (for development - removes existing data)
-    # In production, use Alembic migrations instead
+    reset_database = os.getenv("RESET_DB_ON_STARTUP", "false").lower() == "true"
+
     try:
-        Base.metadata.drop_all(bind=engine)
-        Base.metadata.create_all(bind=engine)
-        print("✅ Database tables created successfully")
+        if reset_database:
+            Base.metadata.drop_all(bind=engine)
+            Base.metadata.create_all(bind=engine)
+            print("⚠️  Database reset on startup because RESET_DB_ON_STARTUP=true")
+        else:
+            Base.metadata.create_all(bind=engine)
+            print("✅ Database tables created successfully")
     except Exception as e:
         print(f"❌ Error creating database tables: {e}")
         raise
-    
+
     create_default_admin()
 
 
