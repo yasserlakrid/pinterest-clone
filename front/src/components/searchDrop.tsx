@@ -1,6 +1,6 @@
 
   import "./searchDrop.css"
-function SearchDrop({setquery , closeDrop , closePost}: any){
+function SearchDrop({setquery , closeDrop }: any){
      const ListOfIntrest = [
     "Art",
     "Animaux de compagnie",

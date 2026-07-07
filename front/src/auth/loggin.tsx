@@ -1,4 +1,4 @@
-import { useState , useEffect } from "react"
+import { useState} from "react"
 import "./loggin.css"
 function Loggin({logged , logginInfo , setLogginInfo}:any){
    

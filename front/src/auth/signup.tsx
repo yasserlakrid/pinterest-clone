@@ -1,4 +1,4 @@
-import { useState , useEffect } from "react"
+import { useState  } from "react"
 import "./signup.css"
 function SignUp({logged} : any){
     const [formData , setFormData] = useState({

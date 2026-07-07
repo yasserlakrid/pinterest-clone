@@ -1,4 +1,4 @@
-import { useState , useEffect } from "react"
+import { useState  } from "react"
 import SignUp from "./signup"
 import Loggin from "./loggin"
 import "./authPage.css"
@@ -8,7 +8,7 @@ import pinterestLogo from "../assets/pinterest.svg";
 
 function Auth({logged , logginInfo , setLogginInfo} : any){
     
-    const [loggedIn , setLoggedIn] = useState(false);
+    const [loggedIn ] = useState(false);
     const [page , setPage] = useState(loggedIn ? "signUp" : "loggin")
     return (
         <div className="AuthPage">

@@ -1,11 +1,11 @@
-import {  useEffect, useState } from "react";
+import {  useState } from "react";
 
 
 import "./search.css"
 function Search({setQuery , searchDrop , closeSearchDrop , user , logState}:any) {
   const [submitedSearch , setsubmitedSearch] = useState<string>("")
   const [toggleProfile , setToggleProfile] = useState(false)
-  const [searchList , setSearchList] = useState<string[]>([])
+ 
   function handleSubmit(){
     setQuery(submitedSearch)
    }
