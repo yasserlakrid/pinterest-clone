@@ -1,5 +1,6 @@
 import { useState  } from "react"
 import "./signup.css"
+import { BACKEND_URL } from "../config/api"
 function SignUp({logged} : any){
     const [formData , setFormData] = useState({
         nom: "",
@@ -15,7 +16,7 @@ function addUser(){
     const req = async ()=>{
         try{
            
-            const request = await fetch("https://pinterest-clone-t040.onrender.com/users",{
+            const request = await fetch(`${BACKEND_URL}/users`,{
                 method:"POST",
                 headers:{
                     "Content-Type": "application/json"

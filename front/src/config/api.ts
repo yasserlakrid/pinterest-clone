@@ -1,0 +1,1 @@
+export const BACKEND_URL = "https://pinterest-clone-t040.onrender.com";

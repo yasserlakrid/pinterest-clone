@@ -1,5 +1,6 @@
 import { useState} from "react"
 import "./loggin.css"
+import { BACKEND_URL } from "../config/api"
 function Loggin({logged , logginInfo , setLogginInfo}:any){
    
     const [wrongPass , setWrongPass]= useState(false)
@@ -7,7 +8,7 @@ function Loggin({logged , logginInfo , setLogginInfo}:any){
    function checkUser(){
     const req = async ()=>{
         try{
-            const response = await fetch("https://pinterest-clone-t040.onrender.com/users/verify",{
+            const response = await fetch(`${BACKEND_URL}/users/verify`,{
                         method:"POST",
                         headers:{
                             "Content-Type": "application/json"
