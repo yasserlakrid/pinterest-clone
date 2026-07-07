@@ -29,7 +29,7 @@ function MainContent(props :any) {
     const element = props.containerRef.current;
     if (!element) return;
     const handleScroll = () => {
-        const atBottom =( element.scrollTop + element.clientHeight >= element.scrollHeight - 5);
+        const atBottom =( element.scrollTop + element.clientHeight >= element.scrollHeight - 100);
         reachedBottom(atBottom);
         setScroling(prev => !prev)
     };
@@ -225,7 +225,7 @@ function addItemToEachColumn(items : Array<any> , length : number){
 }
 
 function LazyPost({post , index ,clickPost , parent , scrolingState , viewPort}:any ){
-    const [visible, setVisible] = useState(false)
+    const [visible, setVisible] = useState(true)
     const cardRef = useRef<HTMLDivElement | null>(null)
   
     useEffect(() => {
@@ -236,6 +236,8 @@ function LazyPost({post , index ,clickPost , parent , scrolingState , viewPort}:
         if (entry.isIntersecting) {
             setVisible(true)
             observer.disconnect()
+        }else{
+            setVisible(false)
         }
         }, { root :null ,  rootMargin: "200px", threshold: 0.1 })
 
