@@ -15,7 +15,7 @@ function addUser(){
     const req = async ()=>{
         try{
            
-            const request = await fetch("http://127.0.0.1:8000/users",{
+            const request = await fetch("https://pinterest-clone-t040.onrender.com/users",{
                 method:"POST",
                 headers:{
                     "Content-Type": "application/json"

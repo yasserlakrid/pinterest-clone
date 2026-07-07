@@ -7,7 +7,7 @@ function Loggin({logged , logginInfo , setLogginInfo}:any){
    function checkUser(){
     const req = async ()=>{
         try{
-            const response = await fetch("http://127.0.0.1:8000/users/verify",{
+            const response = await fetch("https://pinterest-clone-t040.onrender.com/users/verify",{
                         method:"POST",
                         headers:{
                             "Content-Type": "application/json"
