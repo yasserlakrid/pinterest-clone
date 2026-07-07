@@ -6,7 +6,13 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./database.db")
+raw_database_url = os.getenv("DATABASE_URL", "sqlite:///./database.db")
+if raw_database_url.startswith("postgresql://"):
+    DATABASE_URL = raw_database_url.replace("postgresql://", "postgresql+psycopg://", 1)
+elif raw_database_url.startswith("postgres://"):
+    DATABASE_URL = raw_database_url.replace("postgres://", "postgresql+psycopg://", 1)
+else:
+    DATABASE_URL = raw_database_url
 
 engine_kwargs = {}
 if DATABASE_URL.startswith("sqlite"):
