@@ -1,7 +1,7 @@
 import "./mainContent.css"
 import {  useEffect, useRef, useState } from "react"
 import BigPost from "../components/bigPost.tsx"
-const accessKey = "RAkFPc9q0iKs6GarPDAw07HMQ8ktUKAnXdqk2U9DAA5FWJUCRF2xaaS1"
+const accessKey = import.meta.env.ACCESS_KEY
 import SearchDrop from "../components/searchDrop.tsx"
 
 function MainContent(props :any) {
