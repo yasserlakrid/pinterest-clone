@@ -276,7 +276,7 @@ function LazyPost({post , index ,clickPost , parent , scrolingState , viewPort ,
   
         const imageWidth = post.width || 1
         const imageHeight = post.height || 0
-        const heightScale = screenWidth <= 520 ? 0.8 : 1
+        const heightScale = screenWidth <= 520 ? 0.5 : 1
         const renderedHeight = ((imageHeight / imageWidth) * columnWidth ) * heightScale
 
       
