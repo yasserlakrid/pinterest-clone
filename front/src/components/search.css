@@ -22,8 +22,33 @@
     border: none;
     cursor: pointer;
     background: url("../assets/search.png");
+
     background-size: cover;
     background-repeat: none;
+}
+.sideSec{
+
+    width: 80px;
+    display: flex;
+    justify-content: space-between  ;
+    align-items: center;
+
+
+}
+.detailsArrow{
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+.detailsArrow:hover{
+    background-color: rgb(229, 229, 230);
 }
 .userProfile{
     position: relative;
@@ -34,11 +59,27 @@
     background-color: lightslategray;
     cursor: pointer;
 
+
+}
+.innerArrow{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    rotate :180deg;
+    background-color: rgb(229, 229, 230);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background: url("../assets/arrow.png");
 }
 .userDetails{
     position: absolute;
-   right: 0%;
-    top: 110%;
+    right: 0;
+    top: 120%;
+    
     height: 150px;
     z-index: 1000;
     width: 200px;
