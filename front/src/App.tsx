@@ -11,8 +11,8 @@ function App(){
     });
     const navigate = useNavigate();
 
-    const [logged , setLogged] = useState(true)
-//localStorage.getItem("state") === "logged"
+    const [logged , setLogged] = useState(localStorage.getItem("state") === "logged")
+//
     const handleLoggin = (logged : any)=>{
         if(logged){
             navigate("/" , {replace : true})
