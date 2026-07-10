@@ -15,7 +15,8 @@ function Search({setQuery , searchDrop , closeSearchDrop , user , logState}:any)
     localStorage.setItem("state","")
     logState(false)
   }
-  function toUpper(item : string){
+  function toUpper(item : string | undefined){
+      if(!item) return ""
       let first = item[0];
       let sub
       first = first.toUpperCase();
@@ -36,7 +37,7 @@ function Search({setQuery , searchDrop , closeSearchDrop , user , logState}:any)
         <img src="" alt="" />
         <div className="userDetails" style={{display : toggleProfile ? "flex": "none"}}>
             <div className="userName">
-                 {user.prenom  ? toUpper(user.prenom): toUpper(JSON.parse(localStorage.getItem("user")||"").prenom)  } {user.nom ? toUpper(user.nom) : toUpper(JSON.parse(localStorage.getItem("user")||"").nom)}
+                 {user.prenom  ? toUpper(user.prenom): toUpper(JSON.parse(localStorage.getItem("user")||"{}").prenom || "")  } {user.nom ? toUpper(user.nom) : toUpper(JSON.parse(localStorage.getItem("user")||"{}").nom || "")}
             </div>
             <div className="option">
               <button className="logOut" onClick={handleLogOut}>Log out</button>
