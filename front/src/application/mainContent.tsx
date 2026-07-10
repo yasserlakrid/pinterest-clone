@@ -3,12 +3,27 @@ import {  useEffect, useRef, useState } from "react"
 import BigPost from "../components/bigPost.tsx"
 const accessKey = import.meta.env.VITE_ACCESS_KEY
 import SearchDrop from "../components/searchDrop.tsx"
-
+const darkColors = [
+  '#1a1a2e', // dark navy
+  '#2c1810', // dark brown
+  '#0f3d3e', // dark teal
+  '#3d0f2e', // dark magenta
+  '#1e2d24', // dark forest green
+  '#2b1a3d', // dark purple
+  '#3d1a1a', // dark red
+  '#1a2e3d', // dark blue
+  '#2d2a1a', // dark olive
+  '#1a1a1a', // near black
+];
+function randomIndex(array: any[]) {
+  return Math.floor(Math.random() * array.length);
+}
 function MainContent(props :any) {
     type column ={
         posts : object[],
         length : number
     }
+
     const [bottom , reachedBottom ] = useState(false);
     const containerRef = useRef<HTMLDivElement | null>(null); 
     const [loading , setLoading] = useState(true)
@@ -210,7 +225,7 @@ function addItemToEachColumn(items : Array<any> , length : number){
                                     <div className="column" key={index}>
                                         {column.posts.map((post : object | any , index2 : number)=>(
                                              post && post.src ? (
-                                            <LazyPost post={post} index={index2} clickPost={clickPost} parent={containerRef.current} scrolingState = {isScroling} viewPort = {viewPort}/>
+                                            <LazyPost post={post} index={index2} clickPost={clickPost} parent={containerRef.current} scrolingState = {isScroling} viewPort = {viewPort} screenWidth={width}/>
                                              ) : null
                                         ))}
                                         
@@ -224,7 +239,7 @@ function addItemToEachColumn(items : Array<any> , length : number){
     )
 }
 
-function LazyPost({post , index ,clickPost , parent , scrolingState , viewPort}:any ){
+function LazyPost({post , index ,clickPost , parent , scrolingState , viewPort , screenWidth}:any ){
     const [visible, setVisible] = useState(true)
     const cardRef = useRef<HTMLDivElement | null>(null)
   
@@ -261,13 +276,14 @@ function LazyPost({post , index ,clickPost , parent , scrolingState , viewPort}:
   
         const imageWidth = post.width || 1
         const imageHeight = post.height || 0
-        const renderedHeight = ((imageHeight / imageWidth) * columnWidth ) 
+        const heightScale = screenWidth <= 520 ? 0.8 : 1
+        const renderedHeight = ((imageHeight / imageWidth) * columnWidth ) * heightScale
 
       
     return (
     
        
-<div className={`postContainer` }key={index} onClick={()=>clickPost(post.src.large,post.alt)} ref={cardRef}>
+<div className={`postContainer`} style={{ backgroundColor: darkColors[randomIndex(darkColors)] }} key={index} onClick={()=>clickPost(post.src.large,post.alt)} ref={cardRef}>
               {
             visible ? (   
                                 <img src={post.src.medium} style={{width: "100%", height: renderedHeight, objectFit: "cover", display: "block"  }} />

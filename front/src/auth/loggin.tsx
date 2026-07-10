@@ -20,7 +20,9 @@ function Loggin({logged , logginInfo , setLogginInfo}:any){
             if(!response.ok){
                 setWrongPass(true)
                setErrorMsg(data.detail[0].msg||data.detail)
+               console.log("something went wrong");
             }else{
+                console.log("user verified");
                 setWrongPass(false)
                 setLogginInfo(data)
                 logged(true)
