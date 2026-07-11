@@ -1,4 +1,7 @@
+import React, { useEffect, useRef } from "react";
+
 function Parameter() {
+ 
   return (
     
     <div className=" param ">

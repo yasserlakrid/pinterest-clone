@@ -164,4 +164,7 @@
         position: relative;
        
     }
+    .userDetails{
+        z-index: 1001;
+    }
 }

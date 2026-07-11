@@ -1,5 +1,5 @@
 .SearchDrop{
-    position: absolute;
+    position: fixed;
     z-index: 10;
     background-color: white;
     width: 95%;
@@ -15,7 +15,12 @@
     animation: drop 0.5s ease forwards;
 
 }
-
+@media (max-width: 750px) {
+    .SearchDrop{
+        width: 100%;
+        padding: 20px;
+    }
+}
 .SearchDrop div div {
     display: grid;
     grid-template-columns: repeat(auto-fit , minmax(300px , 1fr)) ;
