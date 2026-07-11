@@ -207,7 +207,7 @@ function addItemToEachColumn(items : Array<any> , length : number){
     
     return (
         <div className= "MainContentVid "  ref={containerRef} style={{ placeItems : loading? "start" : "", paddingTop : loading?"64px":"0"} } onClick={props.closeSearchDrop}>
-            {props.searchDrop &&<SearchDrop setquery={setDropQuery} closeDrop = {props.setSearchDrop} closePost = {props.closeDrop}/>}
+            {props.searchDrop &&<SearchDrop setquery={setDropQuery} closeDrop = {props.setSearchDrop} closePost = {props.closeDrop} DropState={props.DropState}/>}
             {
                 loading &&
                     <div className="loadingAniamtion">

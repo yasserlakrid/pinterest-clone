@@ -66,6 +66,12 @@
 
 
 
+.search-drop-open > *:not(.SearchDrop) {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.search-drop-open img {
+  filter: brightness(0.5);
+}
 @media (max-width: 760px) {
   .Container {
   display: grid;

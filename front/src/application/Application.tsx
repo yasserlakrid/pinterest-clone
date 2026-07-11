@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import SideBar from "../components/sideBar";
 import Search from "../components/search";
@@ -23,6 +23,7 @@ function Application({user ,  logState} : any) {
   const [searchDrop , setsearchDrop ] = useState(false)
   const containerRef = useRef<HTMLDivElement | null>(null);
   
+
  //side bar functions 
   function closeOthers(open: ( (state : (prev: Boolean) => boolean)=> void), close : ( (state : boolean)=> void)[] ){
     open((prev : Boolean)=> !prev)
@@ -62,7 +63,7 @@ function Application({user ,  logState} : any) {
  
   return (
     <>
-      <div className="Container">
+      <div className={searchDrop ? "Container search-drop-open" : "Container"} >
         <div className="Search">
           <Search query={searchQuery} setQuery={setsearchQuery} searchDrop ={setsearchDrop} closeSearchDrop = {closeSearchDrop} user={user} logState = {logState}/>
         </div>
@@ -98,6 +99,7 @@ function Application({user ,  logState} : any) {
               setSearchDrop={setsearchDrop} 
               closeDrop={closeSearchDrop}
               containerRef={containerRef}
+              DropState = {searchDrop}
             />
             
           </div>
