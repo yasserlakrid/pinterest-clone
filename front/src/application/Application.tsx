@@ -11,7 +11,7 @@ import MainContent from "./mainContent"
 import Create from "../components/create";
 import "./Application.css";
 
-function Application({user ,  logState} : any) {
+function Application({user ,  logState , clickedPost , setclickedPost , clickedPostId , setclickedPostId , clicked , setClicked, location} : any) {
   const [exploreSh, setDis] = useState(false);
   const [param, openPar] = useState(false);
   const [create, openCreate] = useState(false);
@@ -100,6 +100,17 @@ function Application({user ,  logState} : any) {
               closeDrop={closeSearchDrop}
               containerRef={containerRef}
               DropState = {searchDrop}
+
+              clickedPost={clickedPost}
+              setclickedPost={setclickedPost}
+
+              clickedPostId={clickedPostId}
+              setclickedPostId={setclickedPostId}
+
+              clicked={clicked}
+              setclicked={setClicked}
+              
+              location={location}
             />
             
           </div>

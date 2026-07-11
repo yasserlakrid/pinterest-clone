@@ -1,8 +1,12 @@
 import "./mainContent.css"
 import {  useEffect, useRef, useState } from "react"
-import BigPost from "../components/bigPost.tsx"
+
+import ExtendPost from "./ExtendPost.tsx"
+
 const accessKey = import.meta.env.VITE_ACCESS_KEY
 import SearchDrop from "../components/searchDrop.tsx"
+import { Route, Routes, useNavigate } from "react-router-dom"
+import searchDrop from "../components/searchDrop.tsx"
 const darkColors = [
   '#1a1a2e', // dark navy
   '#2c1810', // dark brown
@@ -18,12 +22,13 @@ const darkColors = [
 function randomIndex(array: any[]) {
   return Math.floor(Math.random() * array.length);
 }
-function MainContent(props :any) {
-    type column ={
+export type column ={
         posts : object[],
         length : number
     }
-
+function MainContent(props :any) {
+   
+    
     const [bottom , reachedBottom ] = useState(false);
     const containerRef = useRef<HTMLDivElement | null>(null); 
     const [loading , setLoading] = useState(true)
@@ -32,7 +37,8 @@ function MainContent(props :any) {
     const [columns , setColumns] = useState<column[]>([{posts : [] , length : 0}])
 
     const [lastAction , setlastAction] = useState<any>("random")
-    const [clickedPost , setclickedPost] = useState<string>("")
+
+   
     const [page, setPage] =useState(1)
     const [dropQuery,setDropQuery] = useState<string>("")
   
@@ -162,8 +168,10 @@ function addItemToEachColumn(items : Array<any> , length : number){
         }
      
     useEffect(() => {
+     
         addItemToEachColumn(photos, viewPort)
-    }, [photos, viewPort])
+    
+    }, [photos, viewPort ,props.location ])
 
     useEffect(()=>{
         if(firstFetch.current){
@@ -194,14 +202,25 @@ function addItemToEachColumn(items : Array<any> , length : number){
         setlastAction(dropQuery)
         
     },[dropQuery])
+    useEffect(()=>{
+        if(props.location.pathname === "/"){
+           setlastAction("random")
+        fetching("search", "random", 1)
+             
+        }
+    }, [props.location])
+const navigate = useNavigate()
 
-    function clickPost(link : string, info: any ){
+    function clickPost(link : string, info: any , id :any){
         props.viewPost(true)
-        setclickedPost(link)
+
+        props.setclickedPost(link)
+        props.setclicked(true)
+        props.setclickedPostId(id)
+        navigate(`/post/${id}`, {replace : false}) // ✅ no colon
         props.resetInstrest(info)
         fetching("search",info, 1)
         setlastAction(info)
-        
         setPhotos(prev => prev.filter((prev : any )=> prev?.src?.large != link))
     }
     
@@ -215,14 +234,14 @@ function addItemToEachColumn(items : Array<any> , length : number){
                     </div>
                 
             }
-            {props.post && <BigPost postUrl = {clickedPost}/>}
 
-               {columns[0] && columns[0].posts && columns[0].posts.length === 0 ? (<>
+             {   props.clicked ? <ExtendPost source={props.clickedPost} id={props.clickedPostId} feed={columns} columns={columns} loading={loading} searchDrop={props.searchDrop} containerRef={containerRef} setSearchDrop={props.setSearchDrop} closeDrop={props.closeDrop} DropState={props.DropState} setDropQuery={setDropQuery} closeSearchDrop={props.closeSearchDrop} clickedState={props.clickedState} clickPost={clickPost} isScroling={isScroling} viewPort={viewPort} width={width}/> : <>
+             { columns[0] && columns[0].posts && columns[0].posts.length === 0 ? (<>
                
                </> ): (
 
                             columns.map((column : column ,index : number)=>(
-                                    <div className="column" key={index}>
+                                    <div className={props.clickedState && (index === 0 || index === 1) ? "column clicked" : "column" } key={index}>
                                         {column.posts.map((post : object | any , index2 : number)=>(
                                              post && post.src ? (
                                             <LazyPost post={post} index={index2} clickPost={clickPost} parent={containerRef.current} scrolingState = {isScroling} viewPort = {viewPort} screenWidth={width}/>
@@ -232,10 +251,11 @@ function addItemToEachColumn(items : Array<any> , length : number){
                                      </div>   
                                     )))
                 }
+             </>
                       
-                
+}    
         </div>
-
+            
     )
 }
 
@@ -259,9 +279,7 @@ function LazyPost({post , index ,clickPost , parent , scrolingState , viewPort ,
         observer.observe(element)
         return () => observer.disconnect()
     }, [scrolingState])
-    useEffect(()=>{
-        console.log("the visibility of the card : " , cardRef.current , "is : " , visible)
-    },[visible])
+
 
     //to calculate the height of the non rendered image 
 
@@ -283,7 +301,7 @@ function LazyPost({post , index ,clickPost , parent , scrolingState , viewPort ,
     return (
     
        
-<div className={`postContainer`} style={{ backgroundColor: darkColors[randomIndex(darkColors)] }} key={index} onClick={()=>clickPost(post.src.large,post.alt)} ref={cardRef}>
+<div className={`postContainer`} style={{ backgroundColor: darkColors[randomIndex(darkColors)] }} key={index} onClick={()=>clickPost(post.src.large,post.alt,post.id)} ref={cardRef}>
               {
             visible ? (   
                                 <img src={post.src.medium} style={{width: "100%", height: renderedHeight, objectFit: "cover", display: "block"  }} />
@@ -299,5 +317,6 @@ function LazyPost({post , index ,clickPost , parent , scrolingState , viewPort ,
         
     )
 }
+export {LazyPost}
 export default MainContent
 //comment
