@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 function Notification () {
    const item = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
