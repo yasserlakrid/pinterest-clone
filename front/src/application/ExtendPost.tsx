@@ -4,23 +4,10 @@ import {LazyPost} from "./mainContent.tsx";
 import type { column } from "./mainContent.tsx";
 
 import "./mainContent.css"
-
+import "./Application.css"
 function ExtendPost({source , columns , loading , searchDrop , containerRef , setSearchDrop , closeDrop , DropState , setDropQuery , closeSearchDrop , clickedState , clickPost , isScroling , viewPort , width }  : any ) {
     return (
-       <div className= "MainContentVid "  ref={containerRef} style={{ placeItems : loading? "start" : "", paddingTop : loading?"64px":"0"} } onClick={closeSearchDrop}>
-           
-            {searchDrop &&<SearchDrop setquery={setDropQuery} closeDrop = {setSearchDrop} closePost = {closeDrop} DropState={DropState}/>}
-            
-            {
-                loading &&
-                    <div className="loadingAniamtion">
-                        loading
-                    </div>
-                
-            }
-
-             
-
+       <>
             { columns[0] && columns[0].posts && columns[0].posts.length === 0 ? (<>
                
                </> ): (
@@ -36,8 +23,10 @@ function ExtendPost({source , columns , loading , searchDrop , containerRef , se
                                      </div>   
                                     )))
                 }
-                                        
-         </div>   
+      
+       </>
+             
+
             
      
     )

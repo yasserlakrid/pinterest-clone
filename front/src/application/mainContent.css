@@ -46,7 +46,10 @@
     margin: 0px 5px 0 5px ;
     overflow: hidden;
 }
-
+.clicked{
+    top:700px;
+    position: relative;
+}
 .column{
     overflow: hidden;
     scrollbar-width: none; /* Firefox */
@@ -64,7 +67,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-   
+    
     overflow-y: scroll;
 }
 .loadingAniamtion{
