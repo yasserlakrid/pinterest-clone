@@ -2,7 +2,7 @@ import "./mainContent.css"
 import {  useEffect, useRef, useState } from "react"
 
 import ExtendPost from "./ExtendPost.tsx"
-
+import Loading from "../components/loading.tsx"
 const accessKey = import.meta.env.VITE_ACCESS_KEY
 import SearchDrop from "../components/searchDrop.tsx"
 import { Route, Routes, useNavigate } from "react-router-dom"
@@ -223,14 +223,15 @@ const navigate = useNavigate()
         setlastAction(info)
         setPhotos(prev => prev.filter((prev : any )=> prev?.src?.large != link))
     }
-    
+
+
     return (
         <div className= "MainContentVid "  ref={containerRef} style={{ placeItems : loading? "start" : "", paddingTop : loading?"64px":"0"} } onClick={props.closeSearchDrop}>
             {props.searchDrop &&<SearchDrop setquery={setDropQuery} closeDrop = {props.setSearchDrop} closePost = {props.closeDrop} DropState={props.DropState}/>}
             {
                 loading &&
                     <div className="loadingAniamtion">
-                        loading
+                        <Loading/>
                     </div>
                 
             }

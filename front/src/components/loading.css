@@ -1,0 +1,49 @@
+.frame {
+  height: 50px;
+  width: 60px;
+  animation: rotate 1s linear infinite;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.thirdContainer {
+  grid-column: 1 / 3;
+}
+
+.frame > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.animated {
+  animation: inout 500ms linear infinite;
+}
+
+@keyframes inout {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.frame > div > div {
+  height: 17px;
+  width: 17px;
+  border-radius: 50%;
+}
