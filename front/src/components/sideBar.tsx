@@ -18,8 +18,8 @@ function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , t
   function renderCompass() {}
   function refrech() {
     window.location.reload();
-  }
 
+  }
   return (
     <>
     <div className="Sidecontainer" onClick={closeSearchDrop}>
@@ -32,7 +32,7 @@ function SideBar({ toggleList, toggleParam, toggleCreate ,toggleNotification , t
         </div>
 
         <div className="logo CompassLogo ">
-          <img src={CompassLogo} onMouseOver={toggleList} />
+          <img src={CompassLogo} onMouseOver={toggleList} onClick={toggleList}/>
         </div>
 
         <div className="logo GridLogo " onClick={renderCompass}>

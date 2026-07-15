@@ -18,6 +18,7 @@ function ExploreList({ toggleList  , setintrest ,closeBigPost}  : any )  {
     "Mariages",
   ];
   function handleClick(e : any){
+    closeBigPost(false)
     setintrest(e)
     closeBigPost(false)
   }

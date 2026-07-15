@@ -33,6 +33,7 @@ function Application({user ,  logState , clickedPost , setclickedPost , clickedP
   }
 
   function toggleList() {
+    
     setDis(!exploreSh)
   }
 
@@ -75,7 +76,7 @@ function Application({user ,  logState , clickedPost , setclickedPost , clickedP
             toggleNotification={toggleNotification}
             toggleMessages = {toggleMessages}
             setintrest = {setinterest}
-            closePost = {setpostView}
+            closePost = {setClicked}
             closeSearchDrop = {closeSearchDrop}
             user = {user}
           />
@@ -114,7 +115,7 @@ function Application({user ,  logState , clickedPost , setclickedPost , clickedP
             />
             
           </div>
-          {exploreSh && <ExploreList toggleList={toggleList} intrest = {interest} setintrest={setinterest} closeBigPost={setpostView} />}
+          {exploreSh && <ExploreList toggleList={toggleList} intrest = {interest} setintrest={setinterest} closeBigPost={setClicked} />}
 
         </div>
       </div>

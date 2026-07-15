@@ -13,26 +13,23 @@
         padding: 0px;
         margin: 0px;
     }
+    
+
     .MainContent{
         padding: 0px;
         margin: 0px;
         width: 100%;
         height: 100%;
     }
+    .ContentVidextended{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: 0px;
+        margin: 0px;
+        
+    }
+
 }
 
-.bigPost{
-    grid-row: 1/4;
-    grid-column: 1/4;
-    
-}
-@media (max-width : 760px) {
-    .bigPost{
-
-    grid-row: 1/2;
-    grid-column: 1/2;
-}
-}
 .postContainer{
     background-color: #2e2e2e;
     color: white;
@@ -47,14 +44,23 @@
     overflow: hidden;
 }
 .clicked{
-    top:700px;
-    position: relative;
+   grid-row : 2/3; 
+   
+}
+.other{
+    grid-row: 1/3;
+
+   
 }
 .column{
     overflow: hidden;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
+        display: flex;
+    flex-direction: column;
+    gap: 10px;
     
+   
 }
 .MainContentVid .column div img {
   width: 100%;
@@ -63,16 +69,43 @@
   object-fit: cover;
 }
 
-.column{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    
-    overflow-y: scroll;
-}
+
 .loadingAniamtion{
     position: absolute;
     left: 45%;
     width: 20%;
     height: 65px;;
 }
+.MainContentVidextended{
+
+    width: 100%;
+   
+    position: relative;
+    display: grid ;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 0.5fr));
+    grid-template-rows: 400px  auto ;
+    overflow-y: scroll;
+
+}
+.extendedPostContainer{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    grid-column: span 2 ;
+}
+
+.extendedPost{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.extendedPost img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+

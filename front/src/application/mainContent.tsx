@@ -5,8 +5,7 @@ import ExtendPost from "./ExtendPost.tsx"
 import Loading from "../components/loading.tsx"
 const accessKey = import.meta.env.VITE_ACCESS_KEY
 import SearchDrop from "../components/searchDrop.tsx"
-import { Route, Routes, useNavigate } from "react-router-dom"
-import searchDrop from "../components/searchDrop.tsx"
+import {  useNavigate } from "react-router-dom"
 const darkColors = [
   '#1a1a2e', // dark navy
   '#2c1810', // dark brown
@@ -217,16 +216,43 @@ const navigate = useNavigate()
         props.setclickedPost(link)
         props.setclicked(true)
         props.setclickedPostId(id)
-        navigate(`/post/${id}`, {replace : false}) // ✅ no colon
+        navigate(`/post/${id}`, {replace : false}) 
         props.resetInstrest(info)
         fetching("search",info, 1)
         setlastAction(info)
         setPhotos(prev => prev.filter((prev : any )=> prev?.src?.large != link))
     }
 
+const [offset, setOffset] = useState(0);
+useEffect(() => {
+    setOffset(()=>{
+       
+           if(columns[2]){
+          setColumns(prev =>
+                    prev.map((col, index) => ({
+                        ...col,
+                        length:
+                        index === 0 || index === 1
+                            ? col.length - (columns[2].length - RenderedHeight(props.clickedPost, width, containerRef, viewPort))
+                            : col.length
+                    }))
+                    )
+            return - (columns[2].length - RenderedHeight(props.clickedPost, width, containerRef, viewPort) )
 
+            }else{
+            return 0
+            } 
+        
+        
+    });
+    console.log("offset is : " , offset , " and the clicked post is : " , props.clickedPost)
+},[isScroling ,props.clickedState, props.clickedPost ]);
+
+useEffect(() => {
+    console.log("the clicked state is : " , props.clicked)
+}, [props.clicked]);
     return (
-        <div className= "MainContentVid "  ref={containerRef} style={{ placeItems : loading? "start" : "", paddingTop : loading?"64px":"0"} } onClick={props.closeSearchDrop}>
+        <div className= {props.clicked ? "MainContentVidextended" : "MainContentVid "}  ref={containerRef} style={{ placeItems : loading? "start" : "", paddingTop : loading?"64px":"0"} } onClick={props.closeSearchDrop}>
             {props.searchDrop &&<SearchDrop setquery={setDropQuery} closeDrop = {props.setSearchDrop} closePost = {props.closeDrop} DropState={props.DropState}/>}
             {
                 loading &&
@@ -236,13 +262,13 @@ const navigate = useNavigate()
                 
             }
 
-             {   props.clicked ? <ExtendPost source={props.clickedPost} id={props.clickedPostId} feed={columns} columns={columns} loading={loading} searchDrop={props.searchDrop} containerRef={containerRef} setSearchDrop={props.setSearchDrop} closeDrop={props.closeDrop} DropState={props.DropState} setDropQuery={setDropQuery} closeSearchDrop={props.closeSearchDrop} clickedState={props.clickedState} clickPost={clickPost} isScroling={isScroling} viewPort={viewPort} width={width}/> : <>
+             {   props.clicked ? <ExtendPost source={props.clickedPost} id={props.clickedPostId} feed={columns} columns={columns} loading={loading} searchDrop={props.searchDrop} containerRef={containerRef} setSearchDrop={props.setSearchDrop} closeDrop={props.closeDrop} DropState={props.DropState} setDropQuery={setDropQuery} closeSearchDrop={props.closeSearchDrop} clickedState={props.clicked} clickPost={clickPost} isScroling={isScroling} viewPort={viewPort} width={width} offset={offset}/> : <>
              { columns[0] && columns[0].posts && columns[0].posts.length === 0 ? (<>
                
                </> ): (
 
                             columns.map((column : column ,index : number)=>(
-                                    <div className={props.clickedState && (index === 0 || index === 1) ? "column clicked" : "column" } key={index}>
+                                    <div className={props.clicked && (index === 0 || index === 1) ? "column clicked" : "column" } key={index}>
                                         {column.posts.map((post : object | any , index2 : number)=>(
                                              post && post.src ? (
                                             <LazyPost post={post} index={index2} clickPost={clickPost} parent={containerRef.current} scrolingState = {isScroling} viewPort = {viewPort} screenWidth={width}/>
@@ -282,21 +308,7 @@ function LazyPost({post , index ,clickPost , parent , scrolingState , viewPort ,
     }, [scrolingState])
 
 
-    //to calculate the height of the non rendered image 
-
-    const totalColumns = Math.max(1, viewPort)
-    const containerWidth = parent.current?.clientWidth ?? window.innerWidth
-    const horizontalGap = 15
-    const containerHorizontalPadding = 20
-    const columnWidth = Math.max(
-        220,
-        (containerWidth - containerHorizontalPadding - horizontalGap * (totalColumns - 1)) / totalColumns
-    )
-  
-        const imageWidth = post.width || 1
-        const imageHeight = post.height || 0
-        const heightScale = screenWidth <= 520 ? 0.5 : 1
-        const renderedHeight = ((imageHeight / imageWidth) * columnWidth ) * heightScale
+        const renderedHeight = RenderedHeight(post, screenWidth, parent, viewPort)
 
       
     return (
@@ -321,3 +333,20 @@ function LazyPost({post , index ,clickPost , parent , scrolingState , viewPort ,
 export {LazyPost}
 export default MainContent
 //comment
+function RenderedHeight(post : any , screenWidth : number , parent : any , viewPort : number){
+    const totalColumns = Math.max(1, viewPort)
+    const containerWidth = parent.current?.clientWidth ?? window.innerWidth
+    const horizontalGap = 15
+    const containerHorizontalPadding = 20
+    const columnWidth = Math.max(
+        220,
+        (containerWidth - containerHorizontalPadding - horizontalGap * (totalColumns - 1)) / totalColumns
+    )
+  
+        const imageWidth = post.width || 1
+        const imageHeight = post.height || 0
+        const heightScale = screenWidth <= 520 ? 0.5 : 1
+        const renderedHeight = ((imageHeight / imageWidth) * columnWidth ) * heightScale
+
+        return renderedHeight
+}
